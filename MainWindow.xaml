@@ -1,0 +1,93 @@
+﻿<Window x:Class="lstwoMODSInstaller.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lstwoMODSInstaller"
+        xmlns:viewModel="clr-namespace:lstwoMODSInstaller.MVVM.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="920" WindowStyle="None" ResizeMode="NoResize" Background="Transparent" AllowsTransparency="True" Icon="/Images/icon.png">
+
+    <Window.DataContext>
+        <viewModel:MainViewModel/>
+    </Window.DataContext>
+
+    <Border CornerRadius="10" Background="#FF1E1215">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Border Background="#FF1E1215" CornerRadius="10" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+
+            <Border Grid.Column="1" Grid.Row="1" Background="#FF27151C" CornerRadius="10">
+                <ContentControl Margin="10" Content="{Binding CurrentView}">
+
+                </ContentControl>
+            </Border>
+
+            <Border Grid.Column="0" Grid.Row="1">
+                <Grid>
+
+                    <StackPanel Grid.Row="1">
+
+                        <RadioButton Content="lstwoMODS Installer" Height="50" Foreground="White" FontSize="14" Style="{StaticResource MenuButtonTheme}"
+                                     IsChecked="True" Command="{Binding InstallerViewCommand}"/>
+                        <RadioButton Content="Custom Item Installer" Height="50" Foreground="White" FontSize="14" Style="{StaticResource MenuButtonTheme}"
+                                     Command="{Binding CustomItemViewCommand}"/>
+
+                    </StackPanel>
+                    <Image Source="/Images/lstwoMODS ad.png" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="15,15,15,15" />
+                </Grid>
+            </Border>
+
+            <!-- Header Row -->
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Transparent Background with Hover Effect -->
+                <Border>
+                    <!-- Main Header Content -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Window Control Buttons -->
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+                            <!-- Minimize Button -->
+                            <Button Width="50" Height="50" Style="{StaticResource ContextButtonTheme}" Tag="/Images/Minimize2.png" Click="Minimize_Click"/>
+
+                            <!-- Close Button -->
+                            <Button Width="50" Height="50" Style="{StaticResource ContextButtonTheme}" Tag="/Images/Close2.png" Click="Close_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Image Source="/Images/lstwoMODS Logo.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="159" Width="159" />
+
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <TextBlock Text="Installer not working? Refresh your github installation:" Foreground="Gray" VerticalAlignment="Center" Margin="25, 0, 10, 0" 
+                           FontFamily="/Fonts/#Inter" FontSize="18"/>
+            </StackPanel>
+
+            <Grid Grid.Row="0" MouseDown="Header_MouseDown" Grid.ColumnSpan="2">
+                <Border Background="Transparent" Margin="0,0,101,0"/>
+                <Button Margin="692,10,116,10" Content="Refresh" Width="112" FontFamily="/Fonts/#Inter" FontSize="16" Click="RefreshButton_Click"/>
+            </Grid>
+
+        </Grid>
+
+    </Border>
+</Window>

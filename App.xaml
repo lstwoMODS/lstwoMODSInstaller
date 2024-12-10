@@ -1,0 +1,24 @@
+﻿<Application x:Class="lstwoMODSInstaller.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:lstwoMODSInstaller"
+             xmlns:viewModel="clr-namespace:lstwoMODSInstaller.MVVM.ViewModel"
+             xmlns:view="clr-namespace:lstwoMODSInstaller.MVVM.View"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ContextButtonTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type viewModel:InstallerViewModel}">
+                <view:InstallerView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:CustomItemViewModel}">
+                <view:CustomItemView/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
