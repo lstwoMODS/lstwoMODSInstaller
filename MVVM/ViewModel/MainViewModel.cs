@@ -11,9 +11,11 @@ namespace lstwoMODSInstaller.MVVM.ViewModel
     {
         public RelayCommand InstallerViewCommand { get; set; }
         public RelayCommand CustomItemViewCommand { get; set; }
+        public RelayCommand CustomItemManagerViewCommand { get; set; }
 
         public InstallerViewModel InstallerVM { get; set; }
         public CustomItemViewModel CustomItemVM { get; set; }
+        public CustomItemManagerViewModel CustomItemManagerVM { get; set; }
 
         private object _currentView;
 
@@ -32,6 +34,7 @@ namespace lstwoMODSInstaller.MVVM.ViewModel
         {
             InstallerVM = new InstallerViewModel();
             CustomItemVM = new CustomItemViewModel();
+            CustomItemManagerVM = new CustomItemManagerViewModel();
 
             CurrentView = InstallerVM;
 
@@ -43,6 +46,11 @@ namespace lstwoMODSInstaller.MVVM.ViewModel
             CustomItemViewCommand = new RelayCommand(o =>
             {
                 CurrentView = CustomItemVM;
+            });
+
+            CustomItemManagerViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = CustomItemManagerVM;
             });
         }
     }

@@ -10,22 +10,25 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Images\Add.png" />
+    <None Remove="Images\Delete.png" />
+    <None Remove="Images\icon.ico" />
+    <None Remove="Images\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Fonts\Inter.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVVM\Model\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\Add.png" />
+    <Resource Include="Images\Delete.png" />
+    <Resource Include="Images\icon.ico" />
     <Resource Include="Images\lstwoMODS Logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\lstwoMODS ad.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Minimize.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Close.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icon.png" />
@@ -38,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Minimize2.png" />
+    <Resource Include="Images\Save.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

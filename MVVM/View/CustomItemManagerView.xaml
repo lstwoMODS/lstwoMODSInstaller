@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="lstwoMODSInstaller.MVVM.View.CustomItemManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:lstwoMODSInstaller.MVVM.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="530
+             " d:DesignWidth="700">
+    <StackPanel Orientation="Horizontal">
+        <!-- PACK LIST -->
+        <Border Width="350">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Orientation="Vertical">
+                <!-- TITLE -->
+                <TextBlock Text="Custom Item Pack List" FontFamily="/Fonts/#Inter" Foreground="White" FontSize="20" FontWeight="Black" Margin="0,0,0,4"/>
+
+                <!-- BUTTON ROW -->
+                <Border Height="35">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                        <!-- NEW BUTTON -->
+                        <Button x:Name="PackListNewButton" Click="PackListNewButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/Add.png"/>
+                                <TextBlock Text="New" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- DELETE BUTTON -->
+                        <Button Margin="5,0,0,0" x:Name="PackListDeleteButton" Click="PackListDeleteButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/Delete.png"/>
+                                <TextBlock Text="Delete" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <!-- PACK LIST -->
+                <ListBox Height="447" x:Name="PackList" SelectionChanged="PackList_SelectionChanged" FontFamily="/Fonts/#Inter"/>
+
+            </StackPanel>
+        </Border>
+
+        <!-- PACK EDITOR -->
+        <Border Width="350">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Orientation="Vertical">
+                <!-- TITLE -->
+                <TextBlock Text="Custom Item Pack Editor" FontFamily="/Fonts/#Inter" Foreground="White" FontSize="20" FontWeight="Black" Margin="0,0,0,4"/>
+
+                <!-- PACK NAME -->
+                <TextBlock Text="Folder Name" FontFamily="/Fonts/#Inter" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,0,0,4"/>
+                <TextBox FontSize="16" FontFamily="/Fonts/#Inter" x:Name="FolderNameTextBox" TextChanged="FolderNameTextBox_TextChanged"/>
+
+                <!-- PACK NAME -->
+                <TextBlock Text="Pack Name" FontFamily="/Fonts/#Inter" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,4,0,4"/>
+                <TextBox FontSize="16" FontFamily="/Fonts/#Inter" x:Name="PackNameTextBox" TextChanged="PackNameTextBox_TextChanged"/>
+
+                <!-- AUTHOR NAME -->
+                <TextBlock Text="Author Name" FontFamily="/Fonts/#Inter" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,4,0,4"/>
+                <TextBox FontSize="16" FontFamily="/Fonts/#Inter" x:Name="PackAuthorTextBox" TextChanged="PackAuthorTextBox_TextChanged"/>
+
+                <!-- ASSET BUNDLES -->
+                <TextBlock Text="Asset Bundles" FontFamily="/Fonts/#Inter" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,4,0,0"/>
+
+                <!-- BUTTON ROW -->
+                <Border Height="35">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                        <!-- NEW BUTTON -->
+                        <Button x:Name="AssetBundlesNewButton" Click="AssetBundlesNewButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/Add.png"/>
+                                <TextBlock Text="Add" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- DELETE BUTTON -->
+                        <Button Margin="5,0,0,0" x:Name="AssetBundlesDeleteButton" Click="AssetBundlesDeleteButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/Delete.png"/>
+                                <TextBlock Text="Delete" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <ListBox Height="96" x:Name="AssetBundlesList" FontFamily="/Fonts/#Inter"/>
+
+                <!-- ASSEMBLIES -->
+                <TextBlock Text="Assemblies" FontFamily="/Fonts/#Inter" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,4,0,0"/>
+
+                <!-- BUTTON ROW -->
+                <Border Height="35">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                        <!-- NEW BUTTON -->
+                        <Button x:Name="AssembliesNewButton" Click="AssembliesNewButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/Add.png"/>
+                                <TextBlock Text="Add" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- DELETE BUTTON -->
+                        <Button Margin="5,0,0,0" x:Name="AssembliesDeleteButton" Click="AssembliesDeleteButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/Delete.png"/>
+                                <TextBlock Text="Delete" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <ListBox Height="97" x:Name="AssembliesList" FontFamily="/Fonts/#Inter">
+                </ListBox>
+
+                <!-- BUTTON ROW -->
+                <Border Height="35">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                        <!-- SAVE BUTTON -->
+                        <Button x:Name="SaveButton" Click="SaveButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/Save.png"/>
+                                <TextBlock Text="Save" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- UNDO BUTTON -->
+                        <Button Margin="5,0,0,0" x:Name="UndoButton" Click="UndoButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/Delete.png"/>
+                                <TextBlock Text="Undo" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

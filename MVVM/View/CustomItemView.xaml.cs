@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace lstwoMODSInstaller.MVVM.View
 {
@@ -26,10 +27,15 @@ namespace lstwoMODSInstaller.MVVM.View
                 if (files != null && files.Length > 0 && Path.GetExtension(files[0]).Equals(".zip", StringComparison.OrdinalIgnoreCase))
                 {
                     e.Effects = DragDropEffects.Copy;
+
+                    var brush = new SolidColorBrush(Color.FromArgb(80, 0, 255, 50));
+                    DropZone.Background = brush;
                 }
                 else
                 {
                     e.Effects = DragDropEffects.None;
+
+                    DropZone.Background = Brushes.Transparent;
                 }
             }
         }
@@ -119,14 +125,12 @@ namespace lstwoMODSInstaller.MVVM.View
 
                 if (dataJsonParentDir == tempDir)
                 {
-                    // Case 1: `data.json` is directly in the tempDir
                     string targetDir = Path.Combine(customItemsDir, Path.GetFileNameWithoutExtension(zipFile));
                     Directory.CreateDirectory(targetDir);
                     CopyDirectory(tempDir, targetDir);
                 }
                 else
                 {
-                    // Case 2: `data.json` is inside a subdirectory
                     string targetDir = Path.Combine(customItemsDir, Path.GetFileName(dataJsonParentDir));
                     CopyDirectory(dataJsonParentDir, targetDir);
                 }
@@ -156,6 +160,11 @@ namespace lstwoMODSInstaller.MVVM.View
                 string targetSubDir = Path.Combine(targetDir, Path.GetFileName(directory));
                 CopyDirectory(directory, targetSubDir);
             }
+        }
+
+        private void DropZone_DragLeave(object sender, DragEventArgs e)
+        {
+            DropZone.Background = Brushes.Transparent;
         }
     }
 }

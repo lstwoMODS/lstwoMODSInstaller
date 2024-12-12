@@ -19,6 +19,10 @@
             <DataTemplate DataType="{x:Type viewModel:CustomItemViewModel}">
                 <view:CustomItemView/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:CustomItemManagerViewModel}">
+                <view:CustomItemManagerView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -24,6 +24,7 @@
                 Margin="15" CornerRadius="15" AllowDrop="True" x:Name="DropZone" 
                 DragEnter="DropZone_DragEnter" Drop="DropZone_Drop" 
                 MouseLeftButtonDown="DropZone_MouseLeftButtonDown"
+                DragLeave="DropZone_DragLeave"
                 Background="Transparent"/>
     </Grid>
 </UserControl>
