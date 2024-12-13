@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:lstwoMODSInstaller"
              xmlns:viewModel="clr-namespace:lstwoMODSInstaller.MVVM.ViewModel"
              xmlns:view="clr-namespace:lstwoMODSInstaller.MVVM.View"
+             xmlns:core="clr-namespace:lstwoMODSInstaller.Core"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -23,6 +24,9 @@
             <DataTemplate DataType="{x:Type viewModel:CustomItemManagerViewModel}">
                 <view:CustomItemManagerView/>
             </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
+
+    
 </Application>

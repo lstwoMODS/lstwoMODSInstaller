@@ -42,6 +42,8 @@ namespace lstwoMODSInstaller.MVVM.View
 
         private void DropZone_Drop(object sender, DragEventArgs e)
         {
+            DropZone.Background = Brushes.White;
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);

@@ -36,7 +36,35 @@
                 </Border>
 
                 <!-- PACK LIST -->
-                <ListBox Height="447" x:Name="PackList" SelectionChanged="PackList_SelectionChanged" FontFamily="/Fonts/#Inter"/>
+                <ListBox Height="447" x:Name="PackList" SelectionChanged="PackList_SelectionChanged" FontFamily="/Fonts/#Inter" MouseDown="PackList_MouseDown">
+                    <ListBox.ContextMenu>
+                        <ContextMenu x:Name="PackListContextMenu" Opened="PackListContextMenu_Opened">
+                            <MenuItem Header="New" x:Name="PackListContext_New" Click="PackListContext_New_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Images/Add.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            
+                            <MenuItem Header="Delete" x:Name="PackListContext_Delete" Click="PackListContext_Delete_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Images/Delete.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            
+                            <MenuItem Header="Export" x:Name="PackListContext_Export" Click="PackListContext_Export_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Images/SaveAs.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            
+                            <MenuItem Header="Open in File Explorer" x:Name="PackListContext_FileExplorer" Click="PackListContext_FileExplorer_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Images/FolderOpened.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
 
             </StackPanel>
         </Border>
@@ -83,7 +111,30 @@
                     </StackPanel>
                 </Border>
 
-                <ListBox Height="96" x:Name="AssetBundlesList" FontFamily="/Fonts/#Inter"/>
+                <ListBox Height="96" x:Name="AssetBundlesList" FontFamily="/Fonts/#Inter" AllowDrop="True" DragDrop.Drop="AssetBundlesList_Drop" 
+                         DragDrop.DragEnter="AssetBundlesList_DragEnter" DragDrop.DragLeave="AssetBundlesList_DragLeave">
+                    <ListBox.ContextMenu>
+                        <ContextMenu x:Name="AssetBundlesContextMenu" Opened="AssetBundlesContextMenu_Opened">
+                            <MenuItem Header="Add" x:Name="AssetBundlesContextMenu_Add" Click="AssetBundlesContextMenu_Add_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Images/Add.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="Delete" x:Name="AssetBundlesContextMenu_Delete" Click="AssetBundlesContextMenu_Delete_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Images/Delete.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="Show in File Explorer" x:Name="AssetBundlesContextMenu_Explorer" Click="AssetBundlesContextMenu_Explorer_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Images/FolderOpened.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
 
                 <!-- ASSEMBLIES -->
                 <TextBlock Text="Assemblies" FontFamily="/Fonts/#Inter" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,4,0,0"/>
@@ -109,7 +160,29 @@
                     </StackPanel>
                 </Border>
 
-                <ListBox Height="97" x:Name="AssembliesList" FontFamily="/Fonts/#Inter">
+                <ListBox Height="97" x:Name="AssembliesList" FontFamily="/Fonts/#Inter" DragDrop.Drop="AssembliesList_Drop" DragDrop.DragEnter="AssembliesList_DragEnter"
+                         DragDrop.DragLeave="AssembliesList_DragLeave" AllowDrop="True">
+                    <ListBox.ContextMenu>
+                        <ContextMenu x:Name="AssembliesContextMenu" Opened="AssembliesContextMenu_Opened">
+                            <MenuItem Header="Add" x:Name="AssembliesContextMenu_Add" Click="AssembliesContextMenu_Add_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Images/Add.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="Delete" x:Name="AssembliesContextMenu_Delete" Click="AssembliesContextMenu_Delete_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Images/Delete.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="Show in File Explorer" x:Name="AssembliesContextMenu_Explorer" Click="AssembliesContextMenu_Explorer_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Images/FolderOpened.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                 </ListBox>
 
                 <!-- BUTTON ROW -->
@@ -128,6 +201,14 @@
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/Images/Delete.png"/>
                                 <TextBlock Text="Undo" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- SAVE AND EXPORT BUTTON -->
+                        <Button Margin="5,0,0,0" x:Name="SaveAndExportButton" Click="SaveAndExportButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/SaveAs.png"/>
+                                <TextBlock Text="Save and Export" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

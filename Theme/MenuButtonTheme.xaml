@@ -24,13 +24,13 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#FF401F34"/>
+                <Setter Property="Background" Value="#06071c"/>
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="#FF1B0D16"/>
+                <Setter Property="Background" Value="#0f133f"/>
             </Trigger>
             <Trigger Property="IsMouseDirectlyOver" Value="True">
-                <Setter Property="Background" Value="#FF12080D"/>
+                <Setter Property="Background" Value="#06071c"/>
             </Trigger>
         </Style.Triggers>
 

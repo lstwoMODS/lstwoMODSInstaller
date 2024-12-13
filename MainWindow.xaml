@@ -8,11 +8,20 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="920" WindowStyle="None" ResizeMode="NoResize" Background="Transparent" AllowsTransparency="True" Icon="/Images/icon.png">
 
+    <!--#4757f5
+        #3744c3
+        #2a3499
+        #1f2675
+        #161b57
+        #0f133f
+        #0a0c2b
+        #06071c-->
+    
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
 
-    <Border CornerRadius="10" Background="#FF1E1215">
+    <Border CornerRadius="10" Background="#0a0c2b">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -24,9 +33,9 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Border Background="#FF1E1215" CornerRadius="10" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+            <Border Background="#0a0c2b" CornerRadius="10" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
-            <Border Grid.Column="1" Grid.Row="1" Background="#FF27151C" CornerRadius="10">
+            <Border Grid.Column="1" Grid.Row="1" Background="#0f133f" CornerRadius="10">
                 <ContentControl Margin="10" Content="{Binding CurrentView}">
 
                 </ContentControl>
@@ -35,7 +44,7 @@
             <Border Grid.Column="0" Grid.Row="1">
                 <Grid>
 
-                    <StackPanel Grid.Row="1">
+                    <StackPanel Grid.Row="1" Margin="0, 10, 0, 0">
 
                         <RadioButton Content="lstwoMODS Installer" Height="50" Foreground="White" FontSize="14" Style="{StaticResource MenuButtonTheme}"
                                      IsChecked="True" Command="{Binding InstallerViewCommand}"/>
