@@ -178,8 +178,10 @@ namespace lstwoMODSInstaller
 
                 var fileName = Path.GetFileName(file);
 
-                File.Move(file, pluginsFolder + fileName);
+                File.Move(file, pluginsFolder + fileName, true);
                 File.Delete(file);
+
+                _ = DownloadOverridesFolderAsync(wobblyLifeFolder);
             }
         };
 
@@ -285,6 +287,80 @@ namespace lstwoMODSInstaller
             }
 
             return path;
+        }
+
+        public static async Task DownloadOverridesFolderAsync(string targetDirectory)
+        {
+            try
+            {
+                string owner = "lstwoSTUDIOS";
+                string repo = "lstwoMODSInstaller";
+                string branch = "7b9082cfc0e65e41e0fde626eb69f4cd0739ffcb";
+                string path = "overrides";
+
+                Directory.CreateDirectory(targetDirectory);
+
+                await DownloadFolderAsync(owner, repo, branch, path, targetDirectory);
+
+                Console.WriteLine("Overrides folder and all subfolders downloaded successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
+            }
+        }
+
+        private static async Task DownloadFolderAsync(string owner, string repo, string branch, string path, string targetDirectory)
+        {
+            try
+            {
+                string apiUrl = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}?ref={branch}";
+
+                var response = await HttpClient.GetAsync(apiUrl);
+                response.EnsureSuccessStatusCode();
+                var contentJson = await response.Content.ReadAsStringAsync();
+                var items = JsonConvert.DeserializeObject<JArray>(contentJson);
+
+                foreach (var item in items)
+                {
+                    string itemType = item["type"]?.ToString();
+                    string itemPath = item["path"]?.ToString();
+                    string itemName = item["name"]?.ToString();
+
+                    if (itemType == "file")
+                    {
+                        string downloadUrl = item["download_url"]?.ToString();
+                        if (string.IsNullOrEmpty(downloadUrl))
+                        {
+                            Console.WriteLine($"Skipping file '{itemName}' due to null download URL.");
+                            continue;
+                        }
+
+                        string targetFilePath = Path.Combine(targetDirectory, itemName);
+                        Console.WriteLine($"Downloading file: {itemPath}");
+
+                        using (var fileResponse = await HttpClient.GetAsync(downloadUrl))
+                        {
+                            fileResponse.EnsureSuccessStatusCode();
+                            await using var fs = new FileStream(targetFilePath, FileMode.Create, FileAccess.Write);
+                            await fileResponse.Content.CopyToAsync(fs);
+                        }
+                    }
+                    else if (itemType == "dir")
+                    {
+                        string subfolderTargetDirectory = Path.Combine(targetDirectory, itemName);
+                        Directory.CreateDirectory(subfolderTargetDirectory);
+                        Console.WriteLine($"Processing subfolder: {itemPath}");
+                        await DownloadFolderAsync(owner, repo, branch, itemPath, subfolderTargetDirectory);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error processing folder '{path}': {ex.Message}");
+                throw;
+            }
         }
 
         private static async Task<(string TagName, List<string> FileUrls)> GetReleaseByTagAsync(Dependency dependency)
