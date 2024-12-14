@@ -289,6 +289,8 @@ namespace lstwoMODSInstaller.MVVM.View
 
         private void AssetBundlesList_Drop(object sender, DragEventArgs e)
         {
+            AssembliesList.Background = Brushes.White;
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
