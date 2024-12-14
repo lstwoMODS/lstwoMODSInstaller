@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_554908CA7A1341B29524592AD2F851DB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_65F1B40B44F746F9B5D527598CA3ED7B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -68,6 +74,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.6.0.x64"
+                    {
+                    "Name" = "8:.NET Desktop Runtime 6.0.21 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.6.0.x64"
+                    }
+                }
             }
         }
     }
@@ -187,8 +201,8 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:lstwoMODS Installer"
-        "ProductCode" = "8:{D64F85A9-7B3D-4F32-8DF7-F5F97A1A594A}"
-        "PackageCode" = "8:{F1A875E5-8953-4E64-8B43-3DB4F88F3E9A}"
+        "ProductCode" = "8:{25467364-C7B6-47A5-9203-7639D2C938C9}"
+        "PackageCode" = "8:{DC9F960A-2ACB-4020-930A-FC305BF8FAC4}"
         "UpgradeCode" = "8:{E6D06049-C73C-49BB-9E4B-C03EF2646649}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -308,7 +322,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A3EAE0AD9493425AB9ABABABCDB58709"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_98014D420A2843CA964E5C2B75BFD1FD"
             {
             "Name" = "8:lstwoMODS Installer"
             "Arguments" = "8:"
@@ -316,13 +330,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_9EC0615DD02E43BEB7C8166721170BF1"
+            "Target" = "8:_554908CA7A1341B29524592AD2F851DB"
             "Folder" = "8:_FCA61DF9D56D43E3BC07A6A42159DB5F"
             "WorkingFolder" = "8:_9CDCFB74F8FF4CBCA7D985F72A35C8F3"
             "Icon" = "8:_65F1B40B44F746F9B5D527598CA3ED7B"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_EC82BC7A96C3432DBB064EB83390ACFF"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FB83637577DE4D719FE06ED54D2067FC"
             {
             "Name" = "8:lstwoMODS Installer"
             "Arguments" = "8:"
@@ -330,7 +344,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_9EC0615DD02E43BEB7C8166721170BF1"
+            "Target" = "8:_554908CA7A1341B29524592AD2F851DB"
             "Folder" = "8:_D285D855FD1E4695ACD4045E86AD75DA"
             "WorkingFolder" = "8:_9CDCFB74F8FF4CBCA7D985F72A35C8F3"
             "Icon" = "8:_65F1B40B44F746F9B5D527598CA3ED7B"
@@ -735,7 +749,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9EC0615DD02E43BEB7C8166721170BF1"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_554908CA7A1341B29524592AD2F851DB"
             {
             "SourcePath" = "8:..\\obj\\Release\\net6.0-windows10.0.17763.0\\apphost.exe"
             "TargetName" = "8:"

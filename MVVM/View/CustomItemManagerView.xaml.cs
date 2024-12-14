@@ -289,7 +289,7 @@ namespace lstwoMODSInstaller.MVVM.View
 
         private void AssetBundlesList_Drop(object sender, DragEventArgs e)
         {
-            AssembliesList.Background = Brushes.White;
+            AssetBundlesList.Background = Brushes.White;
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -798,6 +798,11 @@ namespace lstwoMODSInstaller.MVVM.View
             }
 
             var exportPath = dialog.FileName;
+
+            var tempFolderPath = Path.GetTempPath() + "/lstwoMODS/";
+            var tempExportPath = tempFolderPath + Path.GetFileName(exportPath);
+            var tempPackFolderPath = tempFolderPath + folderName + "/";
+
             var folderPath = $"{customItemsFolder}/{folderName}/";
 
             if (File.Exists(exportPath))
@@ -805,7 +810,33 @@ namespace lstwoMODSInstaller.MVVM.View
                 File.Delete(exportPath);
             }
 
-            ZipFile.CreateFromDirectory(folderPath, exportPath, CompressionLevel.SmallestSize, true);
+            if (!Directory.Exists(tempFolderPath))
+            {
+                Directory.CreateDirectory(tempFolderPath);
+            }
+
+            if (File.Exists(tempExportPath))
+            {
+                File.Delete(tempExportPath);
+            }
+
+            if (Directory.Exists(tempPackFolderPath))
+            {
+                foreach (var file in Directory.GetFiles(tempPackFolderPath))
+                {
+                    File.Delete(file);
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(tempPackFolderPath);
+            }
+
+            CopyDirectory(folderPath, tempPackFolderPath + folderName);
+
+            ZipFile.CreateFromDirectory(tempPackFolderPath, tempExportPath, CompressionLevel.SmallestSize, false);
+            File.Copy(tempExportPath, exportPath);
+            File.Delete(tempExportPath);
 
             MessageBox.Show("Finished Export", "Export Status", MessageBoxButton.OK, MessageBoxImage.Information);
         }
