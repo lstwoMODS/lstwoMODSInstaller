@@ -159,7 +159,7 @@ namespace lstwoMODSInstaller.MVVM.View
             SaveData();
             IsUnsaved = false;
 
-            ExportItemPack();
+            ExportSelectedItemPack();
         }
 
 
@@ -215,10 +215,22 @@ namespace lstwoMODSInstaller.MVVM.View
 
         private void PackListContext_Export_Click(object sender, RoutedEventArgs e)
         {
-            SaveData();
-            IsUnsaved = false;
+            var selectedItem = PackList.SelectedItem.ToString();
 
-            ExportItemPack();
+            if (selectedItem == Data.folderName)
+            {
+                SaveData();
+                IsUnsaved = false;
+            }
+
+            if (selectedItem == null)
+            {
+                return;
+            }
+
+            var pack = GetItemPackFromFolder(customItemsFolder + selectedItem);
+
+            ExportItemPack(pack.Value.folderName);
         }
 
         private void PackListContext_FileExplorer_Click(object sender, RoutedEventArgs e)
@@ -765,7 +777,12 @@ namespace lstwoMODSInstaller.MVVM.View
             IsUnsaved = false;
         }
 
-        private void ExportItemPack()
+        private void ExportSelectedItemPack()
+        {
+            ExportItemPack(Data.folderName);
+        }
+
+        private void ExportItemPack(string folderName)
         {
             var dialog = new SaveFileDialog()
             {
@@ -779,45 +796,14 @@ namespace lstwoMODSInstaller.MVVM.View
             }
 
             var exportPath = dialog.FileName;
-
-            var tempFolderPath = Path.GetTempPath() + "/lstwoMODS/";
-            var tempExportPath = tempFolderPath + Path.GetFileName(exportPath);
-            var tempPackFolderPath = tempFolderPath + NewData.folderName + "/";
-
-            var folderPath = NewData.savedFolderPath;
+            var folderPath = $"{customItemsFolder}/{folderName}/";
 
             if (File.Exists(exportPath))
             {
                 File.Delete(exportPath);
             }
 
-            if (!Directory.Exists(tempFolderPath))
-            {
-                Directory.CreateDirectory(tempFolderPath);
-            }
-
-            if (File.Exists(tempExportPath))
-            {
-                File.Delete(tempExportPath);
-            }
-
-            if (Directory.Exists(tempPackFolderPath))
-            {
-                foreach (var file in Directory.GetFiles(tempPackFolderPath))
-                {
-                    File.Delete(file);
-                }
-            }
-            else
-            {
-                Directory.CreateDirectory(tempPackFolderPath);
-            }
-
-            CopyDirectory(folderPath, tempPackFolderPath + NewData.folderName);
-
-            ZipFile.CreateFromDirectory(tempPackFolderPath, tempExportPath);
-            File.Copy(tempExportPath, exportPath);
-            File.Delete(tempExportPath);
+            ZipFile.CreateFromDirectory(folderPath, exportPath, CompressionLevel.SmallestSize, true);
 
             MessageBox.Show("Finished Export", "Export Status", MessageBoxButton.OK, MessageBoxImage.Information);
         }

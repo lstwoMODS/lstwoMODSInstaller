@@ -30,7 +30,7 @@
                 <Setter Property="Background" Value="#0f133f"/>
             </Trigger>
             <Trigger Property="IsMouseDirectlyOver" Value="True">
-                <Setter Property="Background" Value="#06071c"/>
+                <Setter Property="Background" Value="Black"/>
             </Trigger>
         </Style.Triggers>
 
