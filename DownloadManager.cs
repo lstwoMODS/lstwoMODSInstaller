@@ -295,7 +295,7 @@ namespace lstwoMODSInstaller
             {
                 string owner = "lstwoSTUDIOS";
                 string repo = "lstwoMODSInstaller";
-                string branch = "7b9082cfc0e65e41e0fde626eb69f4cd0739ffcb";
+                string branch = "main";
                 string path = "overrides";
 
                 Directory.CreateDirectory(targetDirectory);
