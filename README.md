@@ -1,5 +1,5 @@
 # lstwoMODSInstaller
-Program to install and update lstwoMODS and its dependencies and install and manage Custom Items.
+Program to install and update [lstwoMODS](https://github.com/lstwo/lstwomods) and its dependencies and install and manage Custom Items.
 
 # Set Up
 
