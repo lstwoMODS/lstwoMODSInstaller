@@ -10,8 +10,6 @@ using Newtonsoft.Json.Linq;
 using System.IO.Compression;
 using Narod.SteamGameFinder;
 using System.Windows;
-using System.Security.Policy;
-using System.Net;
 
 namespace lstwoMODSInstaller
 {

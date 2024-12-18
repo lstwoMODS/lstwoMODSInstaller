@@ -617,12 +617,17 @@ namespace lstwoMODSInstaller.MVVM.View
 
             File.Copy(file, filePath, true);
 
-            assetBundles.Add(fileName);
-
             var data = NewData;
-            var assetPathsList = data.assetPaths == null ? new List<string>() : data.assetPaths.ToList();
-            assetPathsList.Add(fileName);
-            data.assetPaths = assetPathsList.ToArray();
+
+            if (!assetBundles.Contains(fileName))
+            {
+                assetBundles.Add(fileName);
+
+                var assetPathsList = data.assetPaths == null ? new List<string>() : data.assetPaths.ToList();
+                assetPathsList.Add(fileName);
+                data.assetPaths = assetPathsList.ToArray();
+            }
+
             NewData = data;
 
             SetUIData(NewData);
@@ -722,12 +727,17 @@ namespace lstwoMODSInstaller.MVVM.View
 
             File.Copy(file, filePath, true);
 
-            assemblies.Add(fileName);
-
             var data = NewData;
-            var assemblyPathsList = data.assemblyPaths == null ? new List<string>() : data.assemblyPaths.ToList();
-            assemblyPathsList.Add(fileName);
-            data.assemblyPaths = assemblyPathsList.ToArray();
+
+            if (!assemblies.Contains(fileName))
+            {
+                assemblies.Add(fileName);
+
+                var assemblyPathsList = data.assemblyPaths == null ? new List<string>() : data.assemblyPaths.ToList();
+                assemblyPathsList.Add(fileName);
+                data.assemblyPaths = assemblyPathsList.ToArray();
+            }
+
             NewData = data;
 
             SetUIData(NewData);
