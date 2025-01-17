@@ -477,6 +477,11 @@ namespace lstwoMODSInstaller.MVVM.View
 
         private CustomItemPackData[] GetAllItemPacks()
         {
+            if(!Directory.Exists(customItemsFolder))
+            {
+                Directory.CreateDirectory(customItemsFolder);
+            }
+
             var packs = new List<CustomItemPackData>();
             var packDirs = Directory.GetDirectories(customItemsFolder);
 
