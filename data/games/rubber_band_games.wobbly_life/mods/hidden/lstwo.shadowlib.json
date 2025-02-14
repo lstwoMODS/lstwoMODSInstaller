@@ -1,0 +1,12 @@
+﻿{
+    "name": "ShadowLib",
+    "repo_owner": "lstwo",
+    "repo_name": "shadowlib",
+    "file_filter": [
+        "?UniverseLib.Mono"
+    ],
+    "process_file": "MoveToPlugins",
+    "dependencies": [
+        "originalnicodr.cinematic_unity_explorer"
+    ]
+}

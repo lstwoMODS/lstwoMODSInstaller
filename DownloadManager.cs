@@ -10,8 +10,11 @@ using Newtonsoft.Json.Linq;
 using System.IO.Compression;
 using Narod.SteamGameFinder;
 using System.Windows;
+using Microsoft.Win32;
+using System.Text.Json;
+using System.Xml.Linq;
 
-namespace lstwoMODSInstaller
+namespace lstwoMODSInstaller.ModManagement
 {
     public class Dependency
     {
@@ -414,6 +417,274 @@ namespace lstwoMODSInstaller
 
             return (tagName, fileUrls);
         }
+    }
 
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+    public static class DataManager
+    {
+        public static readonly string dataFolder = @$"{Path.GetTempPath()}\lstwoMODSInstaller_DATA";
+        private static readonly HttpClient HttpClient = new HttpClient
+        {
+            DefaultRequestHeaders = { { "User-Agent", "lstwoMODSInstaller" } }
+        };
+
+        public const string REGISTRY_KEY = @"Software\lstwoMODSInstaller";
+
+        public static Dictionary<string, Game> games = new();
+        public static Dictionary<string, string> processBatchFiles = new();
+
+        public static Core coreData;
+
+        public static string savedRepoCommitSHA;
+        public static string latestRepoCommitSHA;
+
+        static DataManager()
+        {
+            var pat = PATManager.GetPAT();
+
+            if (!string.IsNullOrEmpty(pat))
+            {
+                HttpClient.DefaultRequestHeaders.Authorization = new("token", pat);
+            }
+        }
+
+        public static async Task RefreshPATAsync()
+        {
+            PATManager.DeletePAT();
+            await PATManager.EnsurePATExistsAsync();
+            var pat = PATManager.GetPAT();
+            HttpClient.DefaultRequestHeaders.Authorization = new("token", pat);
+        }
+
+        public static async Task UpdateData()
+        {
+            if(!await CheckForNewCommit() && Directory.Exists(dataFolder))
+            {
+                return;
+            }
+
+            await TryDownloadFolderAsync("lstwoSTUDIOS", "lstwoMODSInstaller", "main", "data", dataFolder);
+
+            UpdateSavedRepoCommitSHA();
+
+            await LoadDataFolder();
+        }
+
+        private static async Task LoadDataFolder()
+        {
+            var coreJson = await File.ReadAllTextAsync(@$"{dataFolder}\core.json");
+            coreData = JsonConvert.DeserializeObject<Core>(coreJson);
+
+            var subDirectories = Directory.GetDirectories(dataFolder);
+
+            foreach(var dir in subDirectories)
+            {
+                if(dir.EndsWith(@"\batch\"))
+                {
+                    LoadBatchFolder(dir);
+                }
+                else if(dir.EndsWith(@"\games\"))
+                {
+                    LoadGamesFolder(dir);
+                }
+            }
+        }
+
+        private static void LoadBatchFolder(string path)
+        {
+            var files = Directory.GetFiles(path);
+
+            foreach(var file in files)
+            {
+                if(Path.GetExtension(file) != "bat")
+                {
+                    continue;
+                }
+
+                processBatchFiles.Add(Path.GetFileNameWithoutExtension(file), file);
+            }
+        }
+
+        private static void LoadGamesFolder(string path)
+        {
+            var subDirectories = Directory.GetDirectories(path);
+
+            foreach(var dir in subDirectories)
+            {
+                var id = new DirectoryInfo(dir).Name;
+                var json = File.ReadAllText($@"{dir}\data.json");
+                var game = JsonConvert.DeserializeObject<Game>(json);
+
+                game.LoadMods(dir);
+
+                games.Add(id, game);
+            }
+        }
+
+        private static async Task<bool> CheckForNewCommit()
+        {
+            using var key = Registry.CurrentUser.OpenSubKey(REGISTRY_KEY);
+
+            savedRepoCommitSHA = key?.GetValue("savedRepoCommitSHA") as string;
+            latestRepoCommitSHA = await GetNewestRepoCommitSHA();
+
+            return savedRepoCommitSHA != latestRepoCommitSHA;
+        }
+
+        private static async void UpdateSavedRepoCommitSHA()
+        {
+            using var key = Registry.CurrentUser.CreateSubKey(REGISTRY_KEY);
+
+            latestRepoCommitSHA ??= await GetNewestRepoCommitSHA();
+            key.SetValue("savedRepoCommitSHA", latestRepoCommitSHA);
+
+            savedRepoCommitSHA = latestRepoCommitSHA;
+        }
+
+        private static async Task<string> GetNewestRepoCommitSHA()
+        {
+            try
+            {
+                var response = await HttpClient.GetStringAsync($"https://api.github.com/repos/lstwoSTUDIOS/lstwoMODSInstaller/commits");
+
+                using var doc = JsonDocument.Parse(response);
+                var root = doc.RootElement;
+
+                return root[0].GetProperty("sha").GetString();
+            } 
+            catch(Exception ex )
+            {
+                MessageBox.Show("Error occured while getting newest commit: " + ex.Message, ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+
+        private static async Task<bool> TryDownloadFolderAsync(string owner, string repo, string branch, string path, string targetDirectory)
+        {
+            try
+            {
+                var apiUrl = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}?ref={branch}";
+
+                var response = await HttpClient.GetAsync(apiUrl);
+                response.EnsureSuccessStatusCode();
+                var items = JsonConvert.DeserializeObject<JArray>(await response.Content.ReadAsStringAsync());
+
+                foreach (var item in items)
+                {
+                    var itemType = item["type"]?.ToString();
+                    var itemPath = item["path"]?.ToString();
+                    var itemName = item["name"]?.ToString();
+
+                    if (itemType == "file")
+                    {
+                        var downloadUrl = item["download_url"]?.ToString();
+
+                        if (string.IsNullOrEmpty(downloadUrl))
+                        {
+                            continue;
+                        }
+
+                        var targetFilePath = Path.Combine(targetDirectory, itemName);
+
+                        using var fileResponse = await HttpClient.GetAsync(downloadUrl);
+                        fileResponse.EnsureSuccessStatusCode();
+                        await using var fs = new FileStream(targetFilePath, FileMode.Create, FileAccess.Write);
+                        await fileResponse.Content.CopyToAsync(fs);
+                    }
+                    else if (itemType == "dir")
+                    {
+                        string subfolderTargetDirectory = Path.Combine(targetDirectory, itemName);
+                        Directory.CreateDirectory(subfolderTargetDirectory);
+
+                        var subFolderResult = await TryDownloadFolderAsync(owner, repo, branch, itemPath, subfolderTargetDirectory);
+
+                        if(!subFolderResult)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error occured while getting newest commit: " + ex.Message, ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+        }
+    }
+
+    public class Core
+    {
+        public Mod lstwomods_core;
+        public Mod bepinex;
+    }
+
+    public class Game
+    {
+        public string name;
+        public Mod mod_pack;
+
+        public Dictionary<string, Mod> mods;
+        public string id;
+
+        public void LoadMods(string dir)
+        {
+            var modsDir = $@"{dir}\mods\";
+            var modFiles = Directory.GetFiles(modsDir);
+
+            foreach(var file in modFiles)
+            {
+                var mod = Mod.LoadFromPath(file, false);
+                mods.Add(mod.id, mod);
+            }
+
+            var hiddenModsDir = $@"{modsDir}\hidden\";
+
+            if(!Directory.Exists(hiddenModsDir))
+            {
+                return;
+            }
+
+            var hiddenModFiles = Directory.GetFiles(hiddenModsDir);
+
+            foreach (var file in hiddenModFiles)
+            {
+                var mod = Mod.LoadFromPath(file, true);
+                mods.Add(mod.id, mod);
+            }
+        }
+    }
+
+    public class Mod
+    {
+        public string name;
+        public string repo_owner;
+        public string repo_name;
+        public string[] file_filter;
+        public string process_file;
+        public string[] dependencies;
+
+        public bool isHidden;
+        public string id;
+
+        public static Mod LoadFromPath(string path, bool hidden)
+        {
+            var extension = Path.GetExtension(path);
+
+            if (extension != "json")
+            {
+                return null;
+            }
+
+            var json = File.ReadAllText(path);
+            var mod = JsonConvert.DeserializeObject<Mod>(json);
+
+            mod.isHidden = hidden;
+            mod.id = Path.GetFileNameWithoutExtension(path);
+
+            return mod;
+        }
     }
 }

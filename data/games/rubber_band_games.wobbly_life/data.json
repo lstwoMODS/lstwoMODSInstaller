@@ -1,0 +1,14 @@
+{
+    "game_name": "Wobbly Life",
+
+    "mod_pack": {
+        "name": "lstwoMODS Wobbly Life",
+        "repo_owner": "lstwo",
+        "repo_name": "lstwoMODS-WobblyLife",
+        "file_filter": [],
+        "process_file": "MoveToPlugins",
+        "dependencies": [
+            "lstwo.shadowlib"
+        ]
+    }
+}

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using lstwoMODSInstaller;
+using lstwoMODSInstaller.ModManagement;
 
 namespace lstwoMODSInstaller.MVVM.View
 {

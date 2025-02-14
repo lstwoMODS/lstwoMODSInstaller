@@ -1,0 +1,10 @@
+﻿{
+    "name": "Cinematic Unity Explorer",
+    "repo_owner": "originalnicodr",
+    "repo_name": "CinematicUnityExplorer",
+    "file_filter": [
+        "CinematicUnityExplorer.BepInEx5.Mono"
+    ],
+    "process_file": "MoveToPlugins",
+    "dependencies": []
+}

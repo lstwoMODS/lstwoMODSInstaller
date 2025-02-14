@@ -1,0 +1,23 @@
+{
+    "lstwomods_core": {
+        "name": "lstwoMODS Core",
+        "repo_owner": "lstwo",
+        "repo_name": "lstwomods-core",
+        "file_filter": [],
+        "process_file": "MoveToPlugins",
+        "dependencies": [
+            "originalnicodr.cinematic_unity_explorer"
+        ]
+    },
+
+    "bepinex": {
+        "name": "BepInEx",
+        "repo_owner": "bepinex",
+        "repo_name": "bepinex",
+        "file_filter": [
+            "win_x64"
+        ],
+        "process_file": "ExtractToGameRoot",
+        "dependencies": []
+    }
+}
