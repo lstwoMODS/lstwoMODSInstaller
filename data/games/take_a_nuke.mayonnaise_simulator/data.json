@@ -1,10 +1,10 @@
 {
-    "game_name": "Wobbly Life",
+    "game_name": "Mayonnaise Simulator",
 
     "mod_pack": {
-        "name": "lstwoMODS Wobbly Life",
+        "name": "lstwoMODS Mayonnaise Simulator",
         "repo_owner": "lstwoMODS",
-        "repo_name": "lstwoMODS-WobblyLife",
+        "repo_name": "lstwoMODS-MayoSim",
         "file_filter": [],
         "process_file": "MoveToPlugins",
         "dependencies": [

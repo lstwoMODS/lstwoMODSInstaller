@@ -1,8 +1,8 @@
 {
     "lstwomods_core": {
         "name": "lstwoMODS Core",
-        "repo_owner": "lstwo",
-        "repo_name": "lstwomods-core",
+        "repo_owner": "lstwoMODS",
+        "repo_name": "lstwoMODS-Core",
         "file_filter": [],
         "process_file": "MoveToPlugins",
         "dependencies": [

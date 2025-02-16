@@ -1,7 +1,7 @@
 ﻿{
     "name": "lstwoMODS Extras (Wobbly Life)",
-    "repo_owner": "lstwo",
-    "repo_name": "lstwoMODS-WobblyLife",
+    "repo_owner": "lstwoMODS",
+    "repo_name": "lstwoMODS-WobblyLife-Extras",
     "file_filter": [],
     "process_file": "MoveToPlugins",
     "dependencies": [
