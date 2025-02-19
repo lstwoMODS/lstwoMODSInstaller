@@ -10,5 +10,12 @@
         "dependencies": [
             "lstwo.shadowlib"
         ]
+    },
+
+    "locating_method": {
+        "method_type": "steam",
+        "data": [
+            "Mayonnaise Simulator"
+        ]
     }
 }

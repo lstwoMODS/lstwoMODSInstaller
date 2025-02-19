@@ -1,4 +1,7 @@
 ﻿{
     "game_name": "all",
-    "mod_pack": null
+
+    "mod_pack": null,
+
+    "locating_method": null
 }
