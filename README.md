@@ -37,6 +37,17 @@ Program to install and update [lstwoMODS](https://github.com/lstwo/lstwomods) an
 
    When started for the first time it should open a GitHub page. Click continue and type in the code displayed in the dialog box. Click OK and wait until it says "PAT initialized".
 
-5. **Install lstwoMODS**
+5. **Select Game**
 
-   On the first page click all 4 install buttons. Once all of them finished open Wobbly Life.
+   Select the game to install the mods for at the top.
+
+6. **Install Mods**
+
+   Install lstwoMODS Core and the game mods by clicking their install buttons.
+
+> [!IMPORTANT]
+> Some mods will only work if you first install lstwoMODS Core and then the game mods because they need to overwrite some of lstwoMODS Core's files
+
+7. (Optional) **Install Additional Mods**
+
+   If the game has them you can also install other mods here
