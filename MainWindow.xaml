@@ -16,7 +16,7 @@
         #0f133f
         #0a0c2b
         #06071c-->
-    
+
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
@@ -31,9 +31,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition/>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="0*"/>
             </Grid.RowDefinitions>
 
             <Border Background="#0a0c2b" CornerRadius="10" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+
+            <Border Grid.Column="1" Grid.Row="1" Background="#0f133f" CornerRadius="0" Margin="10, 0, 0, 0"/>
 
             <Border Grid.Column="1" Grid.Row="1" Background="#0f133f" CornerRadius="10">
                 <ContentControl Margin="10" Content="{Binding CurrentView}">
@@ -54,9 +58,11 @@
                                      Command="{Binding CustomItemManagerViewCommand}"/>
 
                     </StackPanel>
-                    <Image Source="/Images/lstwoMODS ad.png" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="15,15,15,15" />
+                    <!-- <Image Source="/Images/lstwoMODS ad.png" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="15,15,15,15" /> -->
                 </Grid>
             </Border>
+            
+            <TextBlock Text="© lstwo 2024-2025" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Foreground="LightGray" FontFamily="/Fonts/#Inter"/>
 
             <!-- Header Row -->
             <Grid Grid.Row="0" Grid.ColumnSpan="2">
@@ -88,15 +94,27 @@
             <Image Source="/Images/lstwoMODS Logo.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="159" Width="159" />
 
 
-            <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <TextBlock Text="Installer not working? Refresh your github installation:" Foreground="Gray" VerticalAlignment="Center" Margin="25, 0, 10, 0" 
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
+                <TextBlock Text="Installer not working? Refresh your github installation:" Foreground="Gray" VerticalAlignment="Center" Margin="5, 0, 5, 0" 
                            FontFamily="/Fonts/#Inter" FontSize="18"/>
             </StackPanel>
 
-            <Grid Grid.Row="0" MouseDown="Header_MouseDown" Grid.ColumnSpan="2">
-                <Border Background="Transparent" Margin="0,0,101,0"/>
-                <Button Margin="692,10,116,10" Content="Refresh" Width="112" FontFamily="/Fonts/#Inter" FontSize="16" Click="RefreshButton_Click"/>
+            <Grid Grid.Row="2" MouseDown="Header_MouseDown" Grid.ColumnSpan="2">
+                <!--<Border Background="Transparent" Margin="0,0,101,0"/>-->
+                <Button Margin="669,3,20,3" Content="Refresh" FontFamily="/Fonts/#Inter" FontSize="16" Click="RefreshButton_Click"/>
             </Grid>
+
+            <Border Grid.ColumnSpan="2" Grid.Column="0">
+                <Border x:Name="Header" MouseDown="Header_MouseDown" Background="Transparent" Margin="0,0,100,0"/>
+            </Border>
+
+
+            <Border Grid.Column="1">
+                <ComboBox Width="384" Height="28" Background="Black" x:Name="GameSelectDropdown" FontFamily="/Fonts/#Inter" FontSize="16" FontWeight="Bold" 
+                          SelectionChanged="GameSelectDropdown_SelectionChanged"/>
+            </Border>
+
+            <Border Grid.Column="1" Grid.Row="1" Background="#59000000" x:Name="MainPartCover"/>
 
         </Grid>
 

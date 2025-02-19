@@ -9,107 +9,128 @@
              " d:DesignWidth="700">
     <Grid>
         <StackPanel>
-            <TextBlock Text="Install Dependencies" Foreground="White" FontSize="28" HorizontalAlignment="Left" FontWeight="Black" Margin="0,0,0,10" FontFamily="/Fonts/#Inter"/>
-
-            <StackPanel Orientation="Horizontal">
-                <Border Width="233" Height="120">
-                    <Border.Clip>
-                        <RectangleGeometry RadiusX="10" RadiusY="10" 
-                                       Rect="0,0,233,200"/>
-                    </Border.Clip>
-
-                    <Grid>
-                        <StackPanel>
-                            <TextBlock Text="BepInEx 5" Foreground="white" 
-                                   FontSize="24" Margin="10, 10, 10, 0" 
-                                   FontFamily="/Fonts/#Inter" FontWeight="Bold"
-/>
-                            <TextBlock x:Name="BepInExVersionText" 
-                                   Text="Newest Version: ..." 
-                                   Foreground="white" FontSize="16" 
-                                   Margin="10, 10, 10, 0" 
-                                   FontFamily="/Fonts/#Inter"/>
-                            <Button Content="Install / Update" Margin="10" 
-                                Height="32" FontFamily="/Fonts/#Inter" 
-                                FontSize="16" FontWeight="Bold" 
-                                x:Name="BepInEx_Install" 
-                                Click="BepInEx_Install_Click"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <Border Width="233" Height="120">
-                    <Border.Clip>
-                        <RectangleGeometry RadiusX="10" RadiusY="10" 
-                                       Rect="0,0,233,200"/>
-                    </Border.Clip>
-
-                    <Grid>
-                        <StackPanel>
-                            <TextBlock Text="ShadowLib" Foreground="white" 
-                                   FontSize="24" Margin="10, 10, 10, 0" 
-                                   FontFamily="/Fonts/#Inter" FontWeight="Bold"/>
-                            <TextBlock x:Name="ShadowLibVersionText" 
-                                   Text="Newest Version: ..." 
-                                   Foreground="white" FontSize="16" 
-                                   Margin="10, 10, 10, 0" 
-                                   FontFamily="/Fonts/#Inter"/>
-                            <Button Content="Install / Update" Margin="10" 
-                                Height="32" FontFamily="/Fonts/#Inter" 
-                                FontSize="16" FontWeight="Bold"
-                                x:Name="ShadowLib_Install" 
-                                Click="ShadowLib_Install_Click"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <Border Width="233" Height="120">
-                    <Border.Clip>
-                        <RectangleGeometry RadiusX="10" RadiusY="10" 
-                                       Rect="0,0,233,200"/>
-                    </Border.Clip>
-
-                    <Grid>
-                        <StackPanel>
-                            <TextBlock Text="CUE" Foreground="white" 
-                                   FontSize="24" Margin="10, 10, 10, 0" 
-                                   FontFamily="/Fonts/#Inter" FontWeight="Bold"/>
-                            <TextBlock x:Name="CUEVersionText" 
-                                   Text="Newest Version: ..." 
-                                   Foreground="white" FontSize="16" 
-                                   Margin="10, 10, 10, 0" 
-                                   FontFamily="/Fonts/#Inter"/>
-                            <Button Content="Install / Update" Margin="10" 
-                                Height="32" FontFamily="/Fonts/#Inter" 
-                                FontSize="16" FontWeight="Bold"
-                                x:Name="CUE_Install" 
-                                Click="CUE_Install_Click"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-            </StackPanel>
-
-            <TextBlock Text="Install lstwoMODS" Foreground="White" FontSize="28" HorizontalAlignment="Left" FontWeight="Black" Margin="0,15,0,10" FontFamily="/Fonts/#Inter"/>
-
-            <Border Width="Auto" Height="120">
-
-                <Grid>
-                    <StackPanel>
-                        <TextBlock x:Name="LstwoMODSVersionText" 
-                               Text="Newest Version: ..." 
-                           Foreground="white" FontSize="16" 
-                           Margin="10, 10, 10, 0" 
-                           FontFamily="/Fonts/#Inter"/>
-                        <Button Content="Install / Update" Margin="10" 
-                        Height="32" FontFamily="/Fonts/#Inter" 
-                        FontSize="16" FontWeight="Bold"
-                        x:Name="Install" 
-                        Click="Install_Click"/>
-                    </StackPanel>
-                </Grid>
+            <TextBlock Text="Install lstwoMODS Core"
+                       Foreground="White"
+                       FontFamily="/Fonts/#Inter"
+                       FontWeight="Black"
+                       FontSize="28"
+                       x:Name="CoreModHeader"/>
+            <Border Margin="10">
+                <StackPanel>
+                    <TextBlock Text="lstwoMODS Core"
+                               Foreground="White"
+                               FontFamily="/Fonts/#Inter"
+                               FontWeight="Bold"
+                               FontSize="24"
+                               Margin="0, 0, 0, 10"
+                               x:Name="CoreModNameText"/>
+                    <TextBlock Text="Latest Version: v1.0.0"
+                               Foreground="White"
+                               FontFamily="/Fonts/#Inter"
+                               FontWeight="Regular"
+                               FontSize="20"
+                               Margin="0, 0, 0, 10"
+                               x:Name="CoreModVersionText"/>
+                    <Button Content="Install / Update" 
+                            Style="{StaticResource ButtonTheme}"
+                            Height="30"
+                            x:Name="CoreModInstallButton"
+                            Click="CoreModInstallButton_Click"/>
+                </StackPanel>
             </Border>
-            <Image Source="/Images/lstwoMODS AD 2.png" Width="512"/>
 
+            <TextBlock Text="Install ??? Mods"
+                       Foreground="White"
+                       FontFamily="/Fonts/#Inter"
+                       FontWeight="Black"
+                       FontSize="28"
+                       x:Name="GameModHeader"/>
+            
+            <Border Margin="10">
+                <StackPanel>
+                    <TextBlock Text="No Game Selected"
+                               Foreground="White"
+                               FontFamily="/Fonts/#Inter"
+                               FontWeight="Bold"
+                               FontSize="24"
+                               Margin="0, 0, 0, 10"
+                               x:Name="GameModNameText"/>
+                    <TextBlock Text="Latest Version: ---"
+                               Foreground="White"
+                               FontFamily="/Fonts/#Inter"
+                               FontWeight="Regular"
+                               FontSize="20"
+                               Margin="0, 0, 0, 10"
+                               x:Name="GameModVersionText"/>
+                    <Button Content="Install / Update"
+                            FontFamily="/Fonts/#Inter"
+                            FontWeight="Bold"
+                            FontSize="16"
+                            Height="30"
+                            x:Name="GameModInstallButton"
+                            Click="GameModInstallButton_Click"
+                            Style="{StaticResource ButtonTheme}"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Install Additional Mods"
+                       Foreground="White"
+                       FontFamily="/Fonts/#Inter"
+                       FontWeight="Black"
+                       FontSize="28"
+                       x:Name="AdditionalModsHeader"/>
+
+            <Border Margin="0">
+                <StackPanel Orientation="Horizontal">
+                    <Border Margin="10" MaxWidth="9999">
+                        <StackPanel>
+                            <TextBlock Text="Select Mod"
+                                       Foreground="White"
+                                       FontFamily="/Fonts/#Inter"
+                                       FontWeight="Bold"
+                                       FontSize="24"/>
+                            <ComboBox Margin="0, 10, 0, 0"
+                                      Width="300"
+                                      FontFamily="/Fonts/#Inter"
+                                      FontWeight="Bold"
+                                      FontSize="16"
+                                      x:Name="AdditionalModsDropdown"
+                                      IsEnabled="False"
+                                      SelectionChanged="AdditionalModsDropdown_SelectionChanged"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Margin="10" Width="360">
+                        <StackPanel>
+                            <TextBlock Text="No Mod Selected"
+                                       Foreground="White"
+                                       FontFamily="/Fonts/#Inter"
+                                       FontWeight="Bold"
+                                       FontSize="24"
+                                       TextTrimming="CharacterEllipsis"
+                                       Margin="0,0,0,10"
+                                       x:Name="AdditionalModNameText"/>
+
+                            <TextBlock Text="Latest Version: ---"
+                                       Foreground="White"
+                                       FontFamily="/Fonts/#Inter"
+                                       FontWeight="Regular"
+                                       FontSize="20"
+                                       TextTrimming="CharacterEllipsis"
+                                       Margin="0,0,0,10"
+                                       x:Name="AdditionalModVersionText"/>
+                            <Button Content="Install / Update"
+                                    FontFamily="/Fonts/#Inter"
+                                    FontWeight="Bold"
+                                    FontSize="16"
+                                    Height="30"
+                                    x:Name="AdditionalModInstallButton"
+                                    Style="{StaticResource ButtonTheme}"
+                                    Click="AdditionalModInstallButton_Click"
+                                    IsEnabled="False"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
         </StackPanel>
 
         <ProgressBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch"

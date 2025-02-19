@@ -11,6 +11,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
                 <ResourceDictionary Source="Theme/ContextButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ButtonTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:InstallerViewModel}">

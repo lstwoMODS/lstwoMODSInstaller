@@ -1,19 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
-    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <ApplicationIcon>Images\icon.ico</ApplicationIcon>
-    <FileVersion>1.0.2</FileVersion>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
     <SignAssembly>False</SignAssembly>
-    <Version>1.0.2</Version>
+    <Version>1.1.0</Version>
+    <Authors>lstwo</Authors>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Images\Add.png" />
@@ -30,6 +28,7 @@
     <Resource Include="Fonts\Inter.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="data\games\take_a_nuke.mayonnaise_simulator\mods\hidden\" />
     <Folder Include="MVVM\Model\" />
   </ItemGroup>
   <ItemGroup>

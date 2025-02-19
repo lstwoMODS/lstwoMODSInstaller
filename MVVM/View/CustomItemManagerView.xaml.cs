@@ -10,6 +10,7 @@ using System.Windows.Media;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.IO.Compression;
+using lstwoMODSInstaller.ModManagement;
 
 namespace lstwoMODSInstaller.MVVM.View
 {

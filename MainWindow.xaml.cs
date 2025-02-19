@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using lstwoMODSInstaller.ModManagement;
+using System.Linq;
+using System.Windows.Media;
 
 namespace lstwoMODSInstaller
 {
@@ -12,10 +15,58 @@ namespace lstwoMODSInstaller
         public static Action OnPATInit;
         public static List<Type> PATInitCallbackLocks = new List<Type>() { typeof(InstallerView) };
 
+        public static Action OnInit;
+        public static List<Type> InitCallbackLocks = new List<Type>() { typeof(InstallerView) };
+
+        public static Action OnSelectedGameChanged;
+        public static Game SelectedGame { get; private set; }
+
+        public static MainWindow Instance { get; private set; }
+
+        public static bool ShouldDarkenMainPart
+        {
+            set
+            {
+                Instance.MainPartCover.Visibility = value ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
         public MainWindow()
         {
+            Instance = this;
+
             InitializeComponent();
-            _ = InitializePAT();
+
+            ShouldDarkenMainPart = true;
+
+            _=Initialize();
+        }
+
+        private async Task Initialize()
+        {
+            try
+            {
+                await InitializePAT();
+                await DataManager.UpdateData();
+
+                var games = DataManager.games;
+                games.Remove("all");
+                GameSelectDropdown.ItemsSource = games.Values.ToList();
+
+                while (InitCallbackLocks.Count > 0)
+                {
+                    await Task.Delay(50);
+                }
+
+                OnInit?.Invoke();
+            }
+            catch(Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{ex.Message}");
+                Console.WriteLine($"{ex.StackTrace}");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
 
         private void Header_MouseDown(object sender, MouseButtonEventArgs e)
@@ -69,6 +120,12 @@ namespace lstwoMODSInstaller
             {
                 MessageBox.Show($"Failed to refresh PAT: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void GameSelectDropdown_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            SelectedGame = GameSelectDropdown.SelectedItem as Game;
+            OnSelectedGameChanged?.Invoke();
         }
     }
 }
