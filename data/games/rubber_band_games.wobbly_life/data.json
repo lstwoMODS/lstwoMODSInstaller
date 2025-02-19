@@ -17,5 +17,17 @@
         "data": [
             "Wobbly Life"
         ]
+    },
+
+    "bepinex": {
+        "mod_name": "BepInEx",
+        "repo_owner": "bepinex",
+        "repo_name": "bepinex",
+        "file_filter": [
+            "win_x64"
+        ],
+        "specific_tag": "v5.4.23.2",
+        "process_file": "ExtractToGameRoot",
+        "dependencies": []
     }
 }
