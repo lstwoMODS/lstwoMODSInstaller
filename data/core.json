@@ -1,6 +1,6 @@
 {
     "lstwomods_core": {
-        "name": "lstwoMODS Core",
+        "mod_name": "lstwoMODS Core",
         "repo_owner": "lstwoMODS",
         "repo_name": "lstwoMODS-Core",
         "file_filter": [],
@@ -11,12 +11,13 @@
     },
 
     "bepinex": {
-        "name": "BepInEx",
+        "mod_name": "BepInEx",
         "repo_owner": "bepinex",
         "repo_name": "bepinex",
         "file_filter": [
             "win_x64"
         ],
+        "specific_tag": "v5.4.23.2",
         "process_file": "ExtractToGameRoot",
         "dependencies": []
     }

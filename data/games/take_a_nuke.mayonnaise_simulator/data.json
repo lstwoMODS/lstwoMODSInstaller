@@ -2,7 +2,7 @@
     "game_name": "Mayonnaise Simulator",
 
     "mod_pack": {
-        "name": "lstwoMODS Mayonnaise Simulator",
+        "mod_name": "lstwoMODS Mayonnaise Simulator",
         "repo_owner": "lstwoMODS",
         "repo_name": "lstwoMODS-MayoSim",
         "file_filter": [],
