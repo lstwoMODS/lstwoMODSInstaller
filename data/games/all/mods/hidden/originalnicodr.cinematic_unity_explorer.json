@@ -5,6 +5,6 @@
     "file_filter": [
         "CinematicUnityExplorer.BepInEx5.Mono"
     ],
-    "process_file": "MoveToPlugins",
+    "process_file": "ExtractToBepInEx",
     "dependencies": []
 }
