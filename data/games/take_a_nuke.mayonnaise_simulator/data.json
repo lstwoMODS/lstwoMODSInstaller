@@ -7,9 +7,7 @@
         "repo_name": "lstwoMODS-MayoSim",
         "file_filter": [],
         "process_file": "MoveToPlugins",
-        "dependencies": [
-            "lstwo.shadowlib"
-        ]
+        "dependencies": []
     },
 
     "locating_method": {
