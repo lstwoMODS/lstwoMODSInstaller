@@ -20,409 +20,6 @@ using System.Diagnostics;
 
 namespace lstwoMODSInstaller.ModManagement
 {
-    public class Dependency
-    {
-        public string Name { get; set; }
-        public string RepoOwner { get; set; }
-        public string RepoName { get; set; }
-        public string SpecificTag { get; set; } // Optional specific tag to fetch
-        public Func<JArray, List<string>> FileFilter { get; set; }
-        public Action<string> ProcessFile { get; set; }
-        public Func<bool> CheckIsInstalled { get; set; }
-    }
-
-    public static class DependencyManager
-    {
-        private static readonly HttpClient HttpClient = new HttpClient
-        {
-            DefaultRequestHeaders = { { "User-Agent", "lstwoMODSInstaller" } }
-        };
-
-        static DependencyManager()
-        {
-            var pat = PATManager.GetPAT();
-            if (!string.IsNullOrEmpty(pat))
-            {
-                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", pat);
-            }
-        }
-
-        public static async Task RefreshPATAsync()
-        {
-            PATManager.DeletePAT();
-            await PATManager.EnsurePATExistsAsync();
-            var pat = PATManager.GetPAT();
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", pat);
-        }
-
-        public static Dependency BepInExDependency = new Dependency
-        {
-            Name = "BepInEx 5",
-            RepoOwner = "BepInEx",
-            RepoName = "BepInEx",
-            SpecificTag = "v5.4.23.2",
-            FileFilter = assets => assets
-                .Where(file => file["name"].ToString().Contains("win_x64"))
-                .Select(file => file["browser_download_url"].ToString())
-                .ToList(),
-            ProcessFile = zip =>
-            {
-                var wobblyLifeFolder = GetWobblyLifeFolder();
-
-                if (!Directory.Exists(wobblyLifeFolder))
-                {
-                    throw new Exception("Could not find Wobbly Life folder!");
-                }
-
-                ZipFile.ExtractToDirectory(zip, wobblyLifeFolder, true);
-                File.Delete(zip);
-            }
-        };
-
-        public static Dependency ShadowLibDependency = new Dependency
-        {
-            Name = "ShadowLib",
-            RepoOwner = "lstwo",
-            RepoName = "ShadowLib",
-            FileFilter = assets => assets
-                .Where(file => !file["name"].ToString().Contains("UniverseLib.Mono.dll"))
-                .Select(file => file["browser_download_url"].ToString())
-                .ToList(),
-            ProcessFile = file =>
-            {
-                var wobblyLifeFolder = GetWobblyLifeFolder();
-
-                if (!Directory.Exists(wobblyLifeFolder))
-                {
-                    throw new Exception("Could not find Wobbly Life folder!");
-                }
-
-                var bepInExFolder = wobblyLifeFolder + "/BepInEx/";
-
-                if (!Directory.Exists(wobblyLifeFolder))
-                {
-                    throw new Exception("BepInEx is not installed! Install BepInEx first.");
-                }
-
-                var pluginsFolder = bepInExFolder + "plugins/";
-
-                if (!Directory.Exists(pluginsFolder))
-                {
-                    Directory.CreateDirectory(pluginsFolder);
-                }
-
-                var fileName = Path.GetFileName(file);
-
-                File.Move(file, pluginsFolder + fileName);
-                File.Delete(file);
-            }
-        };
-
-        public static Dependency CUEDependency = new Dependency
-        {
-            Name = "CUE",
-            RepoOwner = "originalnicodr",
-            RepoName = "CinematicUnityExplorer",
-            SpecificTag = "1.3.0",
-            FileFilter = assets => assets
-                .Where(file => file["name"].ToString().Contains("BepInEx5.Mono"))
-                .Select(file => file["browser_download_url"].ToString())
-                .ToList(),
-            ProcessFile = zip =>
-            {
-                var wobblyLifeFolder = GetWobblyLifeFolder();
-
-                if (!Directory.Exists(wobblyLifeFolder))
-                {
-                    throw new Exception("Could not find Wobbly Life folder!");
-                }
-
-                var bepInExFolder = wobblyLifeFolder + "/BepInEx/";
-
-                if (!Directory.Exists(wobblyLifeFolder))
-                {
-                    throw new Exception("BepInEx is not installed! Install BepInEx first.");
-                }
-
-                ZipFile.ExtractToDirectory(zip, bepInExFolder, true);
-                File.Delete(zip);
-            }
-        };
-
-        public static Dependency lstwoMODSDependency = new Dependency
-        {
-            Name = "lstwoMODS",
-            RepoOwner = "lstwo",
-            RepoName = "lstwoMODS",
-            FileFilter = assets => assets
-                .Where(file => !file["name"].ToString().Contains("Installer"))
-                .Select(file => file["browser_download_url"].ToString())
-                .ToList(),
-            ProcessFile = file =>
-            {
-                var wobblyLifeFolder = GetWobblyLifeFolder();
-
-                if (!Directory.Exists(wobblyLifeFolder))
-                {
-                    throw new Exception("Could not find Wobbly Life folder!");
-                }
-
-                var bepInExFolder = wobblyLifeFolder + "/BepInEx/";
-
-                if (!Directory.Exists(wobblyLifeFolder))
-                {
-                    throw new Exception("BepInEx is not installed! Install BepInEx first.");
-                }
-
-                var pluginsFolder = bepInExFolder + "plugins/";
-
-                if (!Directory.Exists(pluginsFolder))
-                {
-                    Directory.CreateDirectory(pluginsFolder);
-                }
-
-                var fileName = Path.GetFileName(file);
-
-                File.Move(file, pluginsFolder + fileName, true);
-                File.Delete(file);
-
-                _ = DownloadOverridesFolderAsync(wobblyLifeFolder);
-            }
-        };
-
-        private static readonly List<Dependency> Dependencies = new List<Dependency>
-        {
-            BepInExDependency,
-            ShadowLibDependency,
-            CUEDependency,
-            lstwoMODSDependency
-        };
-
-        public static string GetWobblyLifeFolder()
-        {
-            var steamGameLocator = new SteamGameLocator();
-
-            if (!steamGameLocator.getIsSteamInstalled())
-            {
-                throw new Exception("Steam is not installed");
-            }
-
-            return steamGameLocator.getGameInfoByFolder("Wobbly Life").steamGameLocation;
-        }
-
-        public static async Task<Dictionary<string, (string Version, List<string> FileUrls)>> GetLatestVersionsAsync()
-        {
-            var results = new Dictionary<string, (string Version, List<string> FileUrls)>();
-
-            foreach (var dependency in Dependencies)
-            {
-                results[dependency.Name] = await GetLatestVersionAsync(dependency);
-            }
-
-            return results;
-        }
-
-        private static async Task<(string Version, List<string> FileUrls)> GetLatestVersionAsync(Dependency dependency)
-        {
-            try
-            {
-                (string tagName, List<string> fileUrls) = dependency.SpecificTag != null
-                    ? await GetReleaseByTagAsync(dependency)
-                    : await GetLatestReleaseAsync(dependency);
-
-                return (tagName, fileUrls);
-            }
-            catch
-            {
-                return ("Error", new());
-            }
-        }
-
-        public static async Task InstallDependencyAsync(Dependency dependency, Action callback, Action<int> progressCallback)
-        {
-            try
-            {
-                var release = await GetLatestVersionAsync(dependency);
-
-                foreach (var fileUrl in release.FileUrls)
-                {
-                    var path = await DownloadDependencyAsync(fileUrl, progressCallback);
-                    dependency.ProcessFile(path);
-                }
-
-                MessageBox.Show($"Finished installing {dependency.Name} {release.Version}!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error installing {dependency.Name}: {ex.Message}");
-            }
-
-            callback();
-        }
-
-        private static async Task<string> DownloadDependencyAsync(string fileUrl, Action<int> progressCallback = null)
-        {
-            using var client = new HttpClient();
-
-            HttpResponseMessage response = await client.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead);
-            response.EnsureSuccessStatusCode();
-
-            var path = Path.Combine(Path.GetTempPath(), "lstwoMODSInstaller", fileUrl.Split('/').Last());
-            Directory.CreateDirectory(Path.GetDirectoryName(path)); // Ensure the directory exists
-
-            var totalBytes = response.Content.Headers.ContentLength ?? -1L;
-            var totalReadBytes = 0L;
-
-            using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
-            using var contentStream = await response.Content.ReadAsStreamAsync();
-
-            var buffer = new byte[81920]; // 80 KB buffer size
-            int bytesRead;
-
-            while ((bytesRead = await contentStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-            {
-                await fs.WriteAsync(buffer, 0, bytesRead);
-                totalReadBytes += bytesRead;
-
-                if (totalBytes > 0)
-                {
-                    int progress = (int)((double)totalReadBytes / totalBytes * 100);
-                    progressCallback?.Invoke(progress); // Report progress
-                }
-            }
-
-            return path;
-        }
-
-        public static async Task DownloadOverridesFolderAsync(string targetDirectory)
-        {
-            try
-            {
-                string owner = "lstwoSTUDIOS";
-                string repo = "lstwoMODSInstaller";
-                string branch = "main";
-                string path = "overrides";
-
-                Directory.CreateDirectory(targetDirectory);
-
-                await DownloadFolderAsync(owner, repo, branch, path, targetDirectory);
-
-                Console.WriteLine("Overrides folder and all subfolders downloaded successfully.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                throw;
-            }
-        }
-
-        private static async Task DownloadFolderAsync(string owner, string repo, string branch, string path, string targetDirectory)
-        {
-            try
-            {
-                string apiUrl = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}?ref={branch}";
-
-                var response = await HttpClient.GetAsync(apiUrl);
-                response.EnsureSuccessStatusCode();
-                var contentJson = await response.Content.ReadAsStringAsync();
-                var items = JsonConvert.DeserializeObject<JArray>(contentJson);
-
-                foreach (var item in items)
-                {
-                    string itemType = item["type"]?.ToString();
-                    string itemPath = item["path"]?.ToString();
-                    string itemName = item["name"]?.ToString();
-
-                    if (itemType == "file")
-                    {
-                        string downloadUrl = item["download_url"]?.ToString();
-                        if (string.IsNullOrEmpty(downloadUrl))
-                        {
-                            Console.WriteLine($"Skipping file '{itemName}' due to null download URL.");
-                            continue;
-                        }
-
-                        string targetFilePath = Path.Combine(targetDirectory, itemName);
-                        Console.WriteLine($"Downloading file: {itemPath}");
-
-                        using (var fileResponse = await HttpClient.GetAsync(downloadUrl))
-                        {
-                            fileResponse.EnsureSuccessStatusCode();
-                            await using var fs = new FileStream(targetFilePath, FileMode.Create, FileAccess.Write);
-                            await fileResponse.Content.CopyToAsync(fs);
-                        }
-                    }
-                    else if (itemType == "dir")
-                    {
-                        string subfolderTargetDirectory = Path.Combine(targetDirectory, itemName);
-                        Directory.CreateDirectory(subfolderTargetDirectory);
-                        Console.WriteLine($"Processing subfolder: {itemPath}");
-                        await DownloadFolderAsync(owner, repo, branch, itemPath, subfolderTargetDirectory);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error processing folder '{path}': {ex.Message}");
-                throw;
-            }
-        }
-
-        private static async Task<(string TagName, List<string> FileUrls)> GetReleaseByTagAsync(Dependency dependency)
-        {
-            string url = $"https://api.github.com/repos/{dependency.RepoOwner}/{dependency.RepoName}/releases/tags/{dependency.SpecificTag}";
-            var response = await HttpClient.GetStringAsync(url);
-            var release = JObject.Parse(response);
-
-            var tagName = release["tag_name"].ToString();
-            var assets = (JArray)release["assets"];
-            var fileUrls = dependency.FileFilter(assets);
-
-            return (tagName, fileUrls);
-        }
-
-        private static async Task<(string TagName, List<string> FileUrls)> GetLatestReleaseAsync(Dependency dependency)
-        {
-            string url = $"https://api.github.com/repos/{dependency.RepoOwner}/{dependency.RepoName}/releases/latest";
-
-            try
-            {
-                var response = await HttpClient.GetStringAsync(url);
-                var release = JObject.Parse(response);
-
-                var tagName = release["tag_name"].ToString();
-                var assets = (JArray)release["assets"];
-                var fileUrls = dependency.FileFilter(assets);
-
-                return (tagName, fileUrls);
-            }
-            catch
-            {
-                return await GetLatestPreReleaseAsync(dependency);
-            }
-        }
-
-        private static async Task<(string TagName, List<string> FileUrls)> GetLatestPreReleaseAsync(Dependency dependency)
-        {
-            string url = $"https://api.github.com/repos/{dependency.RepoOwner}/{dependency.RepoName}/releases";
-
-            var response = await HttpClient.GetStringAsync(url);
-            var releases = JArray.Parse(response);
-
-            var release = releases
-                .FirstOrDefault(r => r["prerelease"].ToObject<bool>());
-
-            if (release == null)
-                throw new Exception("No pre-releases available");
-
-            var tagName = release["tag_name"].ToString();
-            var assets = (JArray)release["assets"];
-            var fileUrls = dependency.FileFilter(assets);
-
-            return (tagName, fileUrls);
-        }
-    }
-
     [System.Runtime.Versioning.SupportedOSPlatform("windows")]
     public static class DataManager
     {
@@ -438,9 +35,9 @@ namespace lstwoMODSInstaller.ModManagement
         public static string savedRepoCommitSHA;
         public static string latestRepoCommitSHA;
 
-        public static async Task UpdateData()
+        public static async Task UpdateData(bool forceRedownload = false)
         {
-            if(!await CheckForNewCommit() && Directory.Exists(dataFolder))
+            if(!await CheckForNewCommit() && Directory.Exists(dataFolder) && !forceRedownload)
             {
                 await LoadDataFolder();
                 return;
@@ -453,8 +50,31 @@ namespace lstwoMODSInstaller.ModManagement
             await LoadDataFolder();
         }
 
+        public static async Task DownloadOverridesFolderAsync(string targetDirectory)
+        {
+            try
+            {
+                string owner = "lstwoMODS";
+                string repo = "lstwoMODSInstaller";
+                string branch = "main";
+                string path = "overrides";
+
+                Directory.CreateDirectory(targetDirectory);
+
+                await GithubManager.TryDownloadFolderAsync(owner, repo, branch, path, targetDirectory);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
+            }
+        }
+
         private static async Task LoadDataFolder()
         {
+            games = new();
+            processBatchFiles = new();
+
             var coreJson = await File.ReadAllTextAsync(@$"{dataFolder}\core.json");
             coreData = JsonConvert.DeserializeObject<Core>(coreJson);
 
@@ -479,7 +99,7 @@ namespace lstwoMODSInstaller.ModManagement
 
             foreach(var file in files)
             {
-                if(Path.GetExtension(file) != "bat")
+                if(Path.GetExtension(file) != ".bat")
                 {
                     continue;
                 }
@@ -664,7 +284,7 @@ namespace lstwoMODSInstaller.ModManagement
             }
         }
 
-        public static async Task<string[]> DownloadModAsync(Mod mod, Action<int> progressCallback)
+        public static async Task<string[]> DownloadModAsync(Mod mod, Game game, Action<int> progressCallback)
         {
             await mod.UpdateLatestRelease();
 
@@ -675,7 +295,7 @@ namespace lstwoMODSInstaller.ModManagement
             {
                 var shouldDownload = true;
 
-                foreach(var filter in mod.file_filter)
+                foreach (var filter in mod.file_filter)
                 {
                     if(filter.StartsWith("?") && asset.Name.Contains(filter.Replace("?", "")))
                     {
@@ -695,7 +315,7 @@ namespace lstwoMODSInstaller.ModManagement
                 }
 
                 var filePath = await DownloadFileAsync(asset.BrowserDownloadUrl, progressCallback);
-                ProcessFile(mod, filePath);
+                ProcessFile(mod, game, filePath);
 
                 downloadedFiles.Add(filePath);
             }
@@ -703,16 +323,16 @@ namespace lstwoMODSInstaller.ModManagement
             return downloadedFiles.ToArray();
         }
 
-        private static void ProcessFile(Mod mod, string filePath)
+        private static void ProcessFile(Mod mod, Game game, string filePath)
         {
-            var gamePath = mod.parentGame.GetGamePath();
+            var gamePath = game.GetGamePath();
 
             if (DataManager.processBatchFiles.TryGetValue(mod.process_file, out var batchFilePath) && !string.IsNullOrEmpty(batchFilePath) && !string.IsNullOrEmpty(filePath) && 
                 !string.IsNullOrEmpty(gamePath))
             {
                 var startInfo = new ProcessStartInfo(batchFilePath, $"\"{filePath}\" \"{gamePath}\"")
                 {
-                    CreateNoWindow = true,
+                    CreateNoWindow = false,
                     UseShellExecute = false
                 };
 
@@ -760,7 +380,8 @@ namespace lstwoMODSInstaller.ModManagement
 
         private static GitHubRelease ParseRelease(JObject release)
         {
-            return new GitHubRelease
+            return release.ToObject<GitHubRelease>();
+            var r = new GitHubRelease
             {
                 Id = release["id"].ToString(),
                 Name = release["name"].ToString(),
@@ -784,33 +405,70 @@ namespace lstwoMODSInstaller.ModManagement
 
         public class GitHubRelease
         {
+            [JsonProperty("id")]
             public string Id { get; set; }
+
+            [JsonProperty("name")]
             public string Name { get; set; }
+
+            [JsonProperty("tag_name")]
             public string TagName { get; set; }
+
+            [JsonProperty("html_url")]
             public string HtmlUrl { get; set; }
+
+            [JsonProperty("body")]
             public string Body { get; set; }
+
+            [JsonProperty("created_at")]
             public string CreatedAt { get; set; }
+
+            [JsonProperty("published_at")]
             public string PublishedAt { get; set; }
+
+            [JsonProperty("draft")]
             public bool Draft { get; set; }
+
+            [JsonProperty("prerelease")]
             public bool PreRelease { get; set; }
+
+            [JsonProperty("target_commitish")]
             public string TargetCommitish { get; set; }
+
+            [JsonProperty("author")]
             public GitHubUser Author { get; set; }
+
+            [JsonProperty("assets")]
             public List<GitHubAsset> Assets { get; set; }
         }
 
         public class GitHubUser
         {
+            [JsonProperty("login")]
             public string Login { get; set; }
+
+            [JsonProperty("id")]
             public string Id { get; set; }
+
+            [JsonProperty("html_url")]
             public string HtmlUrl { get; set; }
         }
 
         public class GitHubAsset
         {
+            [JsonProperty("name")]
             public string Name { get; set; }
+
+            [JsonProperty("browser_download_url")]
             public string BrowserDownloadUrl { get; set; }
+
+            [JsonProperty("size")]
             public long Size { get; set; }
+
+            [JsonProperty("download_count")]
             public int DownloadCount { get; set; }
+
+            [JsonProperty("content_type")]
             public string ContentType { get; set; }
         }
     }
@@ -818,7 +476,6 @@ namespace lstwoMODSInstaller.ModManagement
     public class Core
     {
         public Mod lstwomods_core;
-        public Mod bepinex;
     }
 
     public class Game
@@ -826,6 +483,7 @@ namespace lstwoMODSInstaller.ModManagement
         public string game_name;
         public Mod mod_pack;
         public LocatingMethod locating_method;
+        public Mod bepinex;
 
         public Dictionary<string, Mod> mods;
         public string id;
@@ -876,7 +534,7 @@ namespace lstwoMODSInstaller.ModManagement
 
         public string GetGamePath()
         {
-            if(gamePath == null)
+            if (gamePath == null)
             {
                 switch (locating_method.method_type)
                 {
@@ -888,7 +546,7 @@ namespace lstwoMODSInstaller.ModManagement
                         break;
                 }
 
-                gamePath = GetGamePath_Manual();
+                gamePath ??= GetGamePath_Manual();
             }
 
             return gamePath;
@@ -990,10 +648,49 @@ namespace lstwoMODSInstaller.ModManagement
             return mod;
         }
 
-        public async void DownloadMod(Action<int> progressCallback)
+        public async Task<bool> DownloadMod(Action<int> progressCallback, bool showFinishMessageBox = true)
         {
-            await UpdateLatestRelease();
-            await GithubManager.DownloadModAsync(this, progressCallback);
+            return await DownloadMod(progressCallback, parentGame, showFinishMessageBox);
+        }
+
+        public async Task<bool> DownloadMod(Action<int> progressCallback, Game game, bool showFinishMessageBox = true)
+        {
+            try
+            {
+                foreach (var dependency in dependencies)
+                {
+                    Mod mod = null;
+
+                    if (game.mods.ContainsKey(dependency))
+                    {
+                        mod = game.mods[dependency];
+                    }
+                    else if (DataManager.games["all"].mods.ContainsKey(dependency))
+                    {
+                        mod = DataManager.games["all"].mods[dependency];
+                    }
+
+                    if(!await mod?.DownloadMod(progressCallback, game, false))
+                    {
+                        return false;
+                    }
+                }
+
+                await UpdateLatestRelease();
+                await GithubManager.DownloadModAsync(this, game, progressCallback);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error downloading mod \"{mod_name}\": {ex.Message}", "Error downloading mod", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (showFinishMessageBox)
+            {
+                MessageBox.Show($"Finished downloading mod \"{mod_name}\"!", "Finished downloading mod", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+            return true;
         }
 
         public async Task UpdateLatestRelease()

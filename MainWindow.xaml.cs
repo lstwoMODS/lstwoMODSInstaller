@@ -49,7 +49,7 @@ namespace lstwoMODSInstaller
                 await InitializePAT();
                 await DataManager.UpdateData();
 
-                var games = DataManager.games;
+                var games = DataManager.games.ToDictionary(entry => entry.Key, entry => entry.Value);
                 games.Remove("all");
                 GameSelectDropdown.ItemsSource = games.Values.ToList();
 
@@ -113,7 +113,8 @@ namespace lstwoMODSInstaller
         {
             try
             {
-                await DependencyManager.RefreshPATAsync();
+                await GithubManager.RefreshPATAsync();
+                await DataManager.UpdateData(true);
                 MessageBox.Show("PAT refreshed successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)

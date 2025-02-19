@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,9 +9,9 @@ using lstwoMODSInstaller.ModManagement;
 
 namespace lstwoMODSInstaller.MVVM.View
 {
+    [SupportedOSPlatform("windows")]
     public partial class InstallerView : UserControl
     {
-        private Game selectedGame;
         private Mod selectedMod;
 
         public InstallerView()
@@ -30,14 +31,23 @@ namespace lstwoMODSInstaller.MVVM.View
             MainWindow.InitCallbackLocks.Remove(GetType());
             MainWindow.PATInitCallbackLocks.Remove(GetType());
 
-            CoreModInstallButton.IsEnabled = false;
-            GameModInstallButton.IsEnabled = false;
-            AdditionalModsDropdown.IsEnabled = false;
-            AdditionalModInstallButton.IsEnabled = false;
+            if (MainWindow.SelectedGame == null)
+            {
+                MainWindow.ShouldDarkenMainPart = true;
+            }
+            else
+            {
+                MainWindow.ShouldDarkenMainPart = false;
+            }
         }
 
         private async Task InitUI()
         {
+            CoreModInstallButton.IsEnabled = false;
+            GameModInstallButton.IsEnabled = false;
+            AdditionalModsDropdown.IsEnabled = false;
+            AdditionalModInstallButton.IsEnabled = false;
+
             var lstwoModsCoreData = DataManager.coreData.lstwomods_core;
             await lstwoModsCoreData.UpdateLatestRelease();
 
@@ -62,8 +72,6 @@ namespace lstwoMODSInstaller.MVVM.View
             {
                 return;
             }
-
-            var modPack = game.mod_pack;
 
             await game.mod_pack.UpdateLatestRelease();
 
@@ -126,6 +134,38 @@ namespace lstwoMODSInstaller.MVVM.View
             }
         }
 
+        private async void DownloadCore()
+        {
+            if(MainWindow.SelectedGame == null)
+            {
+                return;
+            }
+
+            await MainWindow.SelectedGame.bepinex.DownloadMod(OnDownloadProgressChanged, MainWindow.SelectedGame, false);
+            await DataManager.coreData.lstwomods_core.DownloadMod(OnDownloadProgressChanged, MainWindow.SelectedGame, true);
+            await DataManager.DownloadOverridesFolderAsync(MainWindow.SelectedGame.GetGamePath());
+        }
+
+        private async void DownloadGameMods()
+        {
+            if(MainWindow.SelectedGame == null)
+            {
+                return;
+            }
+
+            await MainWindow.SelectedGame.mod_pack.DownloadMod(OnDownloadProgressChanged, MainWindow.SelectedGame, true);
+        }
+
+        private async void DownloadAdditionalMod()
+        {
+            if(MainWindow.SelectedGame == null || selectedMod == null)
+            {
+                return;
+            }
+
+            await selectedMod.DownloadMod(OnDownloadProgressChanged, MainWindow.SelectedGame, true);
+        }
+
 
         private void OnDownloadProgressChanged(int progress)
         {
@@ -134,17 +174,17 @@ namespace lstwoMODSInstaller.MVVM.View
 
         private void CoreModInstallButton_Click(object sender, RoutedEventArgs e)
         {
-
+            DownloadCore();
         }
 
         private void GameModInstallButton_Click(object sender, RoutedEventArgs e)
         {
-
+            DownloadGameMods();
         }
 
         private void AdditionalModInstallButton_Click(object sender, RoutedEventArgs e)
         {
-
+            DownloadAdditionalMod();
         }
 
         private void AdditionalModsDropdown_SelectionChanged(object sender, SelectionChangedEventArgs e)

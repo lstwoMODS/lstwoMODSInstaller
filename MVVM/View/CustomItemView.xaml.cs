@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using lstwoMODSInstaller.ModManagement;
+using System.Threading.Tasks;
 
 namespace lstwoMODSInstaller.MVVM.View
 {
@@ -15,9 +16,25 @@ namespace lstwoMODSInstaller.MVVM.View
     /// </summary>
     public partial class CustomItemView : UserControl
     {
+        private static bool hasSeenMessageBox = false;
+
         public CustomItemView()
         {
+            MainWindow.ShouldDarkenMainPart = false;
+            _MessageBox();
+
             InitializeComponent();
+        }
+
+        private async void _MessageBox()
+        {
+            if (!hasSeenMessageBox)
+            {
+                await Task.Run(() => MessageBox.Show("Not all games support Custom Items. Installing them on games that don't support them won't do anything.", "Info", MessageBoxButton.OK,
+                    MessageBoxImage.Information));
+            }
+
+            hasSeenMessageBox = true;
         }
 
         private void DropZone_DragEnter(object sender, DragEventArgs e)
@@ -123,7 +140,7 @@ namespace lstwoMODSInstaller.MVVM.View
                 string dataJsonPath = jsonFiles[0];
                 string dataJsonParentDir = Directory.GetParent(dataJsonPath).FullName;
 
-                string customItemsDir = Path.Combine(DependencyManager.GetWobblyLifeFolder(), "CustomItems");
+                string customItemsDir = Path.Combine(MainWindow.SelectedGame.GetGamePath(), "CustomItems");
                 Directory.CreateDirectory(customItemsDir);
 
                 if (dataJsonParentDir == tempDir)

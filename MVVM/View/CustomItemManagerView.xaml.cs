@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.IO.Compression;
 using lstwoMODSInstaller.ModManagement;
+using System.Threading.Tasks;
 
 namespace lstwoMODSInstaller.MVVM.View
 {
@@ -51,24 +52,54 @@ namespace lstwoMODSInstaller.MVVM.View
         private CustomItemPackData newSelectedData;
         private bool IsUnsaved = false;
 
-        private readonly string customItemsFolder = DependencyManager.GetWobblyLifeFolder() + "/CustomItems/";
+        private static string customItemsFolder => MainWindow.SelectedGame?.GetGamePath() + "/CustomItems/";
 
         private List<string> assetBundles = new();
         private List<string> assemblies = new();
         private List<string> itemPacks = new();
 
+        private static bool hasSeenMessageBox = false;
+
         public CustomItemManagerView()
         {
+            MainWindow.ShouldDarkenMainPart = false;
+            _MessageBox();
+
             InitializeComponent();
 
-            var packs = GetAllItemPacks();
+            MainWindow.OnSelectedGameChanged += () =>
+            {
+                var packs = GetAllItemPacks();
+                itemPacks.Clear();
 
-            foreach(var pack in packs)
+                foreach (var pack in packs)
+                {
+                    itemPacks.Add(pack.folderName);
+                }
+
+                UpdateItemPackList();
+            };
+
+            var packs = GetAllItemPacks();
+            itemPacks.Clear();
+
+            foreach (var pack in packs)
             {
                 itemPacks.Add(pack.folderName);
             }
 
             UpdateItemPackList();
+        }
+
+        private async void _MessageBox()
+        {
+            if (!hasSeenMessageBox)
+            {
+                await Task.Run(() => MessageBox.Show("Not all games support Custom Items. Installing them on games that don't support them won't do anything.", "Info", MessageBoxButton.OK,
+                    MessageBoxImage.Information));
+            }
+
+            hasSeenMessageBox = true;
         }
 
         private void PackListNewButton_Click(object sender, RoutedEventArgs e)
@@ -478,6 +509,11 @@ namespace lstwoMODSInstaller.MVVM.View
 
         private CustomItemPackData[] GetAllItemPacks()
         {
+            if(customItemsFolder == null)
+            {
+                return Array.Empty<CustomItemPackData>();
+            }
+
             if(!Directory.Exists(customItemsFolder))
             {
                 Directory.CreateDirectory(customItemsFolder);
@@ -553,6 +589,11 @@ namespace lstwoMODSInstaller.MVVM.View
 
         private void DeleteSelectedItemPack()
         {
+            if(customItemsFolder == null)
+            {
+                return;
+            }
+
             var pack = GetItemPackFromFolder(customItemsFolder + PackList.SelectedItem.ToString());
 
             if (pack == null)
