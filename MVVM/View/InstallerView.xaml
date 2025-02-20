@@ -17,13 +17,24 @@
                        x:Name="CoreModHeader"/>
             <Border Margin="10">
                 <StackPanel>
-                    <TextBlock Text="lstwoMODS Core"
-                               Foreground="White"
-                               FontFamily="/Fonts/#Inter"
-                               FontWeight="Bold"
-                               FontSize="24"
-                               Margin="0, 0, 0, 10"
-                               x:Name="CoreModNameText"/>
+                    <Grid>
+                        <TextBlock Text="lstwoMODS Core"
+                                   Foreground="White"
+                                   FontFamily="/Fonts/#Inter"
+                                   FontWeight="Bold"
+                                   FontSize="24"
+                                   Margin="0, 0, 0, 10"
+                                   x:Name="CoreModNameText"/>
+                        <TextBlock Text="Downloads: ???"
+                                   Foreground="LightGray"
+                                   FontFamily="/Fonts/#Inter"
+                                   FontWeight="Regular"
+                                   FontSize="14"
+                                   Margin="0, 0, 0, 10"
+                                   x:Name="CoreModDownloadsText"
+                                   TextAlignment="Right"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
                     <TextBlock Text="Latest Version: v1.0.0"
                                Foreground="White"
                                FontFamily="/Fonts/#Inter"
@@ -48,13 +59,25 @@
             
             <Border Margin="10">
                 <StackPanel>
-                    <TextBlock Text="No Game Selected"
-                               Foreground="White"
-                               FontFamily="/Fonts/#Inter"
-                               FontWeight="Bold"
-                               FontSize="24"
-                               Margin="0, 0, 0, 10"
-                               x:Name="GameModNameText"/>
+                    <Grid>
+                        <TextBlock Text="No Game Selected"
+                                   Foreground="White"
+                                   FontFamily="/Fonts/#Inter"
+                                   FontWeight="Bold"
+                                   FontSize="24"
+                                   Margin="0, 0, 0, 10"
+                                   x:Name="GameModNameText"/>
+                        <TextBlock Text="Downloads: ???"
+                                   Foreground="LightGray"
+                                   FontFamily="/Fonts/#Inter"
+                                   FontWeight="Regular"
+                                   FontSize="14"
+                                   Margin="0, 0, 0, 10"
+                                   x:Name="GameModDownloadsText"
+                                   TextAlignment="Right"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                    
                     <TextBlock Text="Latest Version: ---"
                                Foreground="White"
                                FontFamily="/Fonts/#Inter"
@@ -110,14 +133,25 @@
                                        Margin="0,0,0,10"
                                        x:Name="AdditionalModNameText"/>
 
-                            <TextBlock Text="Latest Version: ---"
-                                       Foreground="White"
-                                       FontFamily="/Fonts/#Inter"
-                                       FontWeight="Regular"
-                                       FontSize="20"
-                                       TextTrimming="CharacterEllipsis"
-                                       Margin="0,0,0,10"
-                                       x:Name="AdditionalModVersionText"/>
+                            <Grid>
+                                <TextBlock Text="Latest Version: ---"
+                                           Foreground="White"
+                                           FontFamily="/Fonts/#Inter"
+                                           FontWeight="Regular"
+                                           FontSize="20"
+                                           TextTrimming="CharacterEllipsis"
+                                           Margin="0,0,0,10"
+                                           x:Name="AdditionalModVersionText"/>
+                                <TextBlock Text="Downloads: ???"
+                                           Foreground="LightGray"
+                                           FontFamily="/Fonts/#Inter"
+                                           FontWeight="Regular"
+                                           FontSize="14"
+                                           Margin="0, 0, 0, 10"
+                                           x:Name="AdditionalModDownloadsText"
+                                           TextAlignment="Right"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
                             <Button Content="Install / Update"
                                     FontFamily="/Fonts/#Inter"
                                     FontWeight="Bold"

@@ -265,6 +265,32 @@ namespace lstwoMODSInstaller.ModManagement
             }
         }
 
+        public static async Task<List<GitHubRelease>> GetAllReleases(string owner, string repo)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}/releases";
+
+            try
+            {
+                var response = await HttpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var json = await response.Content.ReadAsStringAsync();
+
+                var releases = JArray.Parse(json);
+                var parsedReleases = new List<GitHubRelease>();
+
+                foreach (var release in releases)
+                {
+                    parsedReleases.Add(ParseRelease(release as JObject));
+                }
+
+                return parsedReleases;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public static async Task<GitHubRelease> GetReleaseByTag(string owner, string repo, string tag)
         {
             string url = $"https://api.github.com/repos/{owner}/{repo}/releases/tags/{tag}";
@@ -286,7 +312,7 @@ namespace lstwoMODSInstaller.ModManagement
 
         public static async Task<string[]> DownloadModAsync(Mod mod, Game game, Action<int> progressCallback)
         {
-            await mod.UpdateLatestRelease();
+            await mod.UpdateReleases();
 
             var release = mod.latestRelease;
             var downloadedFiles = new List<string>();
@@ -440,6 +466,18 @@ namespace lstwoMODSInstaller.ModManagement
 
             [JsonProperty("assets")]
             public List<GitHubAsset> Assets { get; set; }
+
+            public int GetFullDownloadCount()
+            {
+                var count = 0;
+
+                foreach(var asset in Assets)
+                {
+                    count += asset.DownloadCount;
+                }
+
+                return count;
+            }
         }
 
         public class GitHubUser
@@ -627,6 +665,7 @@ namespace lstwoMODSInstaller.ModManagement
         public bool isHidden;
         public string id;
         public GithubManager.GitHubRelease latestRelease;
+        public List<GithubManager.GitHubRelease> releases;
         public Game parentGame;
 
         public static Mod LoadFromPath(string path, bool hidden, Game parent)
@@ -676,7 +715,7 @@ namespace lstwoMODSInstaller.ModManagement
                     }
                 }
 
-                await UpdateLatestRelease();
+                await UpdateReleases();
                 await GithubManager.DownloadModAsync(this, game, progressCallback);
             }
             catch (Exception ex)
@@ -693,19 +732,33 @@ namespace lstwoMODSInstaller.ModManagement
             return true;
         }
 
-        public async Task UpdateLatestRelease()
+        public async Task UpdateReleases()
         {
-            if (latestRelease == null)
+            if (releases == null)
             {
+                releases = await GithubManager.GetAllReleases(repo_owner, repo_name);
+
                 if (string.IsNullOrEmpty(specific_tag))
                 {
-                    latestRelease = await GithubManager.GetLatestReleaseInfo(repo_owner, repo_name, true);
+                    latestRelease = releases.FirstOrDefault();
                 }
                 else
                 {
                     latestRelease = await GithubManager.GetReleaseByTag(repo_owner, repo_name, specific_tag);
                 }
             }
+        }
+
+        public int GetFullDownloadCount()
+        {
+            var count = 0;
+
+            foreach(var release in releases)
+            {
+                count += release.GetFullDownloadCount();
+            }
+
+            return count;
         }
 
         public override string ToString()
