@@ -53,3 +53,25 @@ WINDOWS X64 ONLY
 7. (Optional) **Install Additional Mods**
 
    If the game has them you can also install other mods here
+
+# Troubleshooting
+
+## Installer doesn't open
+
+### Cause
+
+This is most likely caused by the fact that .NET is not installed. This could also happen if you aren't using 64-Bit Windows (10+), because MacOS, Linux and 32-Bit Windows is not supported.
+
+### Fix
+
+If you are running 64-Bit Windows, all you need to do is download and install the [.NET 6.0 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.36-windows-x64-installer)
+
+## 403: Rate limit exceeded
+
+### Cause
+
+This error means that your installer has been sending too many requests to GitHub. This is because GitHub has a limit on how often requests can be made. It can happen when opening / closing the installer a lot.
+
+### Fix
+
+This error can simply be fixed by waiting until it doesn't happen anymore.
