@@ -56,7 +56,7 @@ namespace lstwoMODSInstaller
                 {
                     try
                     {
-                        if (string.IsNullOrEmpty(game.Value.GetGamePath()))
+                        if (game.Value.locating_method.method_type == "steam" && string.IsNullOrEmpty(game.Value.GetGamePath()))
                         {
                             games.Remove(game.Key);
                         }
