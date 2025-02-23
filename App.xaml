@@ -1,10 +1,8 @@
 ﻿<Application x:Class="lstwoMODSInstaller.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:lstwoMODSInstaller"
              xmlns:viewModel="clr-namespace:lstwoMODSInstaller.MVVM.ViewModel"
              xmlns:view="clr-namespace:lstwoMODSInstaller.MVVM.View"
-             xmlns:core="clr-namespace:lstwoMODSInstaller.Core"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -24,6 +22,10 @@
 
             <DataTemplate DataType="{x:Type viewModel:CustomItemManagerViewModel}">
                 <view:CustomItemManagerView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:ManageInstallViewModel}">
+                <view:ManageInstallView/>
             </DataTemplate>
 
         </ResourceDictionary>

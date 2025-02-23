@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="lstwoMODSInstaller.MVVM.View.ManageInstallView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:lstwoMODSInstaller.MVVM.View"
+             mc:Ignorable="d"
+             d:DesignHeight="530" 
+             d:DesignWidth="700">
+    <Grid>
+        <StackPanel>
+            <Button Style="{StaticResource ButtonTheme}"
+                    Content="Open Game Directory In Explorer"
+                    Margin="10"
+                    Width="500"
+                    Height="30"
+                    HorizontalAlignment="Stretch"
+                    x:Name="OpenGameDirectory"
+                    Click="OpenGameDirectory_Click"/>
+            <Button Style="{StaticResource ButtonTheme}"
+                    Content="Delete Saved Keybinds"
+                    Margin="10"
+                    Width="500"
+                    Height="30"
+                    HorizontalAlignment="Stretch"
+                    x:Name="DeleteKeybinds"
+                    Click="DeleteKeybinds_Click"/>
+            <Button Style="{StaticResource ButtonTheme}"
+                    Content="Delete BepInEx (Uninstall ALL Mods)"
+                    Margin="10"
+                    Width="500"
+                    Height="30"
+                    HorizontalAlignment="Stretch"
+                    x:Name="DeleteBepInEx"
+                    Click="DeleteBepInEx_Click"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

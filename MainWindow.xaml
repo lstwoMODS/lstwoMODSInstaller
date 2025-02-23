@@ -56,6 +56,8 @@
                                      Command="{Binding CustomItemViewCommand}"/>
                         <RadioButton Content="Custom Item Manager" Height="50" Foreground="White" FontSize="14" Style="{StaticResource MenuButtonTheme}"
                                      Command="{Binding CustomItemManagerViewCommand}"/>
+                        <RadioButton Content="Manage Installation" Height="50" Foreground="White" FontSize="14" Style="{StaticResource MenuButtonTheme}"
+                                     Command="{Binding ManageInstallViewCommand}"/>
 
                     </StackPanel>
                     <!-- <Image Source="/Images/lstwoMODS ad.png" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="15,15,15,15" /> -->
