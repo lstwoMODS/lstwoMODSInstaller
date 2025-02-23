@@ -75,3 +75,7 @@ This error means that your installer has been sending too many requests to GitHu
 ### Fix
 
 This error can simply be fixed by waiting until it doesn't happen anymore.
+
+
+
+If you need help with any other problems related to lstwoMODS, join my discord here: https://discord.gg/cKWcxccQXU
