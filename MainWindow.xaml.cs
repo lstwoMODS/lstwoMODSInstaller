@@ -51,6 +51,22 @@ namespace lstwoMODSInstaller
 
                 var games = DataManager.games.ToDictionary(entry => entry.Key, entry => entry.Value);
                 games.Remove("all");
+
+                foreach (var game in games)
+                {
+                    try
+                    {
+                        if (string.IsNullOrEmpty(game.Value.GetGamePath()))
+                        {
+                            games.Remove(game.Key);
+                        }
+                    }
+                    catch
+                    {
+                        games.Remove(game.Key);
+                    }
+                }
+
                 GameSelectDropdown.ItemsSource = games.Values.ToList();
 
                 while (InitCallbackLocks.Count > 0)

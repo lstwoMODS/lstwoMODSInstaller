@@ -6,7 +6,7 @@
         "repo_owner": "lstwoMODS",
         "repo_name": "lstwoMODS-WobblyLife",
         "file_filter": [],
-        "process_file": "MoveToPlugins",
+        "process_file": "MoveToPluginsAndDeleteOldLstwoMods",
         "dependencies": [
             "lstwo.shadowlib"
         ]
