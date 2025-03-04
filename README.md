@@ -41,9 +41,9 @@ WINDOWS X64 ONLY
 
 5. **Select Game**
 
-   Select the game to install the mods for at the top.
+   Wait until the dropdown at the top shows what games you can install then select the game to install the mods for.
 
-6. **Install Mods**
+7. **Install Mods**
 
    Install lstwoMODS Core and the game mods by clicking their install buttons.
 
