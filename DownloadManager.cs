@@ -3,19 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.IO.Compression;
 using Narod.SteamGameFinder;
 using System.Windows;
 using Microsoft.Win32;
 using System.Text.Json;
-using System.Xml.Linq;
-using Windows.Media.Protection.PlayReady;
-using Microsoft.Windows.Themes;
-using Windows.Gaming.Input;
 using System.Diagnostics;
 
 namespace lstwoMODSInstaller.ModManagement
@@ -134,7 +128,7 @@ namespace lstwoMODSInstaller.ModManagement
             return savedRepoCommitSHA != latestRepoCommitSHA;
         }
 
-        private static async void UpdateSavedRepoCommitSHA()
+        private static async Task UpdateSavedRepoCommitSHA()
         {
             using var key = Registry.CurrentUser.CreateSubKey(REGISTRY_KEY);
 

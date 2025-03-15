@@ -37,13 +37,13 @@ namespace lstwoMODSInstaller
                 deviceCodeResponse.EnsureSuccessStatusCode();
                 var deviceCodeContent = await deviceCodeResponse.Content.ReadAsStringAsync();
 
-                Dictionary<string, string> deviceData = deviceCodeContent.Split('&')
+                var deviceData = deviceCodeContent.Split('&')
                     .ToDictionary(c => c.Split('=')[0], c => Uri.UnescapeDataString(c.Split('=')[1]));
 
-                string verificationUri = deviceData["verification_uri"];
-                string userCode = deviceData["user_code"];
-                string deviceCode = deviceData["device_code"];
-                string interval = deviceData["interval"];
+                var verificationUri = deviceData["verification_uri"];
+                var userCode = deviceData["user_code"];
+                var deviceCode = deviceData["device_code"];
+                var interval = deviceData["interval"];
 
                 var messageBox = new TaskCompletionSource<bool>();
 
@@ -82,12 +82,11 @@ namespace lstwoMODSInstaller
                     else
                     {
                         var errorData = tokenContent.Split('&').ToDictionary(c => c.Split('=')[0], c => Uri.UnescapeDataString(c.Split('=')[1]));
-                        if (errorData.ContainsKey("error") && errorData["error"] == "authorization_pending")
+                        if (errorData.TryGetValue("error", out var value) && value == "authorization_pending")
                         {
                             continue;
                         }
                     }
-
                 }
             }
             catch (Exception ex)

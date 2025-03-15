@@ -5,34 +5,81 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:lstwoMODSInstaller.MVVM.View"
              mc:Ignorable="d"
-             d:DesignHeight="530" 
+             d:DesignHeight="498" 
              d:DesignWidth="700">
     <Grid>
-        <StackPanel>
-            <Button Style="{StaticResource ButtonTheme}"
-                    Content="Open Game Directory In Explorer"
-                    Margin="10"
-                    Width="500"
-                    Height="30"
-                    HorizontalAlignment="Stretch"
-                    x:Name="OpenGameDirectory"
-                    Click="OpenGameDirectory_Click"/>
-            <Button Style="{StaticResource ButtonTheme}"
-                    Content="Delete Saved Keybinds"
-                    Margin="10"
-                    Width="500"
-                    Height="30"
-                    HorizontalAlignment="Stretch"
-                    x:Name="DeleteKeybinds"
-                    Click="DeleteKeybinds_Click"/>
-            <Button Style="{StaticResource ButtonTheme}"
-                    Content="Delete BepInEx (Uninstall ALL Mods)"
-                    Margin="10"
-                    Width="500"
-                    Height="30"
-                    HorizontalAlignment="Stretch"
-                    x:Name="DeleteBepInEx"
-                    Click="DeleteBepInEx_Click"/>
+        <StackPanel Orientation="Horizontal">
+
+            <Border>
+                <StackPanel Width="340" Margin="5">
+                    <TextBlock Text="Installed Mods" FontFamily="/Fonts/#Inter" Foreground="White" FontWeight="Black" FontSize="20" Margin="0,0,0,5"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Button Margin="0,0,5,0" x:Name="AddModBtn" Click="AddModBtn_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/Add.png"/>
+                                <TextBlock Text="Add" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+                        
+                        <Button x:Name="DeleteModBtn" Click="DeleteModBtn_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Images/Delete.png"/>
+                                <TextBlock Text="Delete" Margin="5,0,5,0" FontFamily="/Fonts/#Inter" FontSize="16"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <ListBox Height="430" x:Name="ModList"/>
+
+                </StackPanel>
+            </Border>
+
+
+            <Border>
+                <StackPanel Width="340" Margin="5">
+                    <TextBlock Text="Installation Actions" FontFamily="/Fonts/#Inter" Foreground="White" FontWeight="Black" FontSize="20" Margin="0,0,0,5"/>
+
+                    <Button Style="{StaticResource ButtonTheme}"
+                        Content="Open Game Directory In Explorer"
+                        Margin="5"
+                        Width="330"
+                        Height="30"
+                        HorizontalAlignment="Stretch"
+                        x:Name="OpenGameDirectory"
+                        Click="OpenGameDirectory_Click"/>
+                    <Button Style="{StaticResource ButtonTheme}"
+                        Content="Delete Saved Keybinds"
+                        Margin="5"
+                        Width="330"
+                        Height="30"
+                        HorizontalAlignment="Stretch"
+                        x:Name="DeleteKeybinds"
+                        Click="DeleteKeybinds_Click"/>
+                    <Button Style="{StaticResource ButtonTheme}"
+                        Content="Delete BepInEx (Uninstall ALL Mods)"
+                        Margin="5"
+                        Width="330"
+                        Height="30"
+                        HorizontalAlignment="Stretch"
+                        x:Name="DeleteBepInEx"
+                        Click="DeleteBepInEx_Click"/>
+
+                    <TextBlock Text="Mod Actions" FontFamily="/Fonts/#Inter" Foreground="White" FontWeight="Black" FontSize="20" Margin="0,15,0,5"/>
+
+                    <Button Style="{StaticResource ButtonTheme}"
+                        Content="Toggle Mod Active"
+                        Margin="5"
+                        Width="330"
+                        Height="30"
+                        HorizontalAlignment="Stretch"
+                        x:Name="ToggleModActive"
+                        Click="ToggleModActive_Click"/>
+
+                </StackPanel>
+            </Border>
         </StackPanel>
+           
+        
     </Grid>
 </UserControl>

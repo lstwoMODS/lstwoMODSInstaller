@@ -25,10 +25,7 @@ namespace lstwoMODSInstaller
 
         public static bool ShouldDarkenMainPart
         {
-            set
-            {
-                Instance.MainPartCover.Visibility = value ? Visibility.Visible : Visibility.Hidden;
-            }
+            set => Instance.MainPartCover.Visibility = value ? Visibility.Visible : Visibility.Hidden;
         }
 
         public MainWindow()
