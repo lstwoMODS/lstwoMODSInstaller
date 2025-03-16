@@ -6,7 +6,7 @@ WINDOWS X64 ONLY
 # Set Up
 
 > [!IMPORTANT]
-> This program requires the .NET 6.0 Desktop Runtime. You can download it [here](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.36-windows-x64-installer).
+> This program requires the .NET 8.0 Desktop Runtime. You can download it [here](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.14-windows-x64-installer).
 
 1. **Make sure you are logged into GitHub. You'll need this later.**
 
