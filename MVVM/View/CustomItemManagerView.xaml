@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:lstwoMODSInstaller.MVVM.View"
              mc:Ignorable="d" 
-             d:DesignHeight="530
+             d:DesignHeight="498
              " d:DesignWidth="700">
     <StackPanel Orientation="Horizontal">
         <!-- PACK LIST -->
         <Border Width="350">
-            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Orientation="Vertical">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Orientation="Vertical">
                 <!-- TITLE -->
                 <TextBlock Text="Custom Item Pack List" FontFamily="/Fonts/#Inter" Foreground="White" FontSize="20" FontWeight="Black" Margin="0,0,0,4"/>
 
@@ -36,7 +36,7 @@
                 </Border>
 
                 <!-- PACK LIST -->
-                <ListBox Height="447" x:Name="PackList" SelectionChanged="PackList_SelectionChanged" FontFamily="/Fonts/#Inter" MouseDown="PackList_MouseDown">
+                <ListBox Height="425" x:Name="PackList" SelectionChanged="PackList_SelectionChanged" FontFamily="/Fonts/#Inter" MouseDown="PackList_MouseDown">
                     <ListBox.ContextMenu>
                         <ContextMenu x:Name="PackListContextMenu" Opened="PackListContextMenu_Opened">
                             <MenuItem Header="New" x:Name="PackListContext_New" Click="PackListContext_New_Click">
@@ -71,7 +71,7 @@
 
         <!-- PACK EDITOR -->
         <Border Width="350">
-            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Orientation="Vertical">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Orientation="Vertical">
                 <!-- TITLE -->
                 <TextBlock Text="Custom Item Pack Editor" FontFamily="/Fonts/#Inter" Foreground="White" FontSize="20" FontWeight="Black" Margin="0,0,0,4"/>
 
@@ -111,7 +111,7 @@
                     </StackPanel>
                 </Border>
 
-                <ListBox Height="96" x:Name="AssetBundlesList" FontFamily="/Fonts/#Inter" AllowDrop="True" DragDrop.Drop="AssetBundlesList_Drop" 
+                <ListBox Height="85" x:Name="AssetBundlesList" FontFamily="/Fonts/#Inter" AllowDrop="True" DragDrop.Drop="AssetBundlesList_Drop" 
                          DragDrop.DragEnter="AssetBundlesList_DragEnter" DragDrop.DragLeave="AssetBundlesList_DragLeave">
                     <ListBox.ContextMenu>
                         <ContextMenu x:Name="AssetBundlesContextMenu" Opened="AssetBundlesContextMenu_Opened">
@@ -160,7 +160,7 @@
                     </StackPanel>
                 </Border>
 
-                <ListBox Height="97" x:Name="AssembliesList" FontFamily="/Fonts/#Inter" DragDrop.Drop="AssembliesList_Drop" DragDrop.DragEnter="AssembliesList_DragEnter"
+                <ListBox Height="85" x:Name="AssembliesList" FontFamily="/Fonts/#Inter" DragDrop.Drop="AssembliesList_Drop" DragDrop.DragEnter="AssembliesList_DragEnter"
                          DragDrop.DragLeave="AssembliesList_DragLeave" AllowDrop="True">
                     <ListBox.ContextMenu>
                         <ContextMenu x:Name="AssembliesContextMenu" Opened="AssembliesContextMenu_Opened">

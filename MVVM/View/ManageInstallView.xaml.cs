@@ -221,5 +221,42 @@ namespace lstwoMODSInstaller.MVVM.View
                 return fileName;
             }
         }
+
+        private void OpenPluginsDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            var gamePath = MainWindow.SelectedGame?.GetGamePath();
+
+            if (MainWindow.SelectedGame == null || string.IsNullOrEmpty(gamePath) || !Directory.Exists(gamePath))
+            {
+                return;
+            }
+
+            var psi = new ProcessStartInfo()
+            {
+                FileName = $"{gamePath}/BepInEx/plugins",
+                UseShellExecute = true
+            };
+
+            Process.Start(psi);
+        }
+
+        private void ShowModInExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            var modPath = (ModList.SelectedItem as ModFile)?.Path;
+
+            if (MainWindow.SelectedGame == null || ModList.SelectedItem as ModFile == null || string.IsNullOrEmpty(modPath) || !File.Exists(modPath))
+            {
+                return;
+            }
+
+            var psi = new ProcessStartInfo()
+            {
+                FileName = $"explorer.exe",
+                UseShellExecute = true,
+                Arguments = $"/select,\"{modPath}\""
+            };
+
+            Process.Start(psi);
+        }
     }
 }

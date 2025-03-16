@@ -49,6 +49,14 @@
                         x:Name="OpenGameDirectory"
                         Click="OpenGameDirectory_Click"/>
                     <Button Style="{StaticResource ButtonTheme}"
+                        Content="Open Plugins Directory In Explorer"
+                        Margin="5"
+                        Width="330"
+                        Height="30"
+                        HorizontalAlignment="Stretch"
+                        x:Name="OpenPluginsDirectory"
+                        Click="OpenPluginsDirectory_Click"/>
+                    <Button Style="{StaticResource ButtonTheme}"
                         Content="Delete Saved Keybinds"
                         Margin="5"
                         Width="330"
@@ -75,6 +83,14 @@
                         HorizontalAlignment="Stretch"
                         x:Name="ToggleModActive"
                         Click="ToggleModActive_Click"/>
+                    <Button Style="{StaticResource ButtonTheme}"
+                        Content="Show Mod In Explorer"
+                        Margin="5"
+                        Width="330"
+                        Height="30"
+                        HorizontalAlignment="Stretch"
+                        x:Name="ShowModInExplorer"
+                        Click="ShowModInExplorer_Click"/>
 
                 </StackPanel>
             </Border>

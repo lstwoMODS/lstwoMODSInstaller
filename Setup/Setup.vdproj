@@ -209,15 +209,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:lstwoMODS Installer"
-        "ProductCode" = "8:{575FB859-7FD8-409E-9154-6CA83C115E3F}"
-        "PackageCode" = "8:{73C6B26C-481E-493A-BACA-4219AC21B10F}"
+        "ProductCode" = "8:{3D303F66-67F3-4426-9DE2-788301A03CEF}"
+        "PackageCode" = "8:{B89DDD45-AEFF-435B-9FA4-C85BA4C0883B}"
         "UpgradeCode" = "8:{E6D06049-C73C-49BB-9E4B-C03EF2646649}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.2.1"
+        "ProductVersion" = "8:2.3.1"
         "Manufacturer" = "8:lstwo"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -759,7 +759,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_554908CA7A1341B29524592AD2F851DB"
             {
-            "SourcePath" = "8:..\\obj\\Release\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\obj\\Release\\net8.0-windows10.0.17763.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9CDCFB74F8FF4CBCA7D985F72A35C8F3"
