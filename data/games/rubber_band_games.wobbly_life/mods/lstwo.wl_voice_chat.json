@@ -3,7 +3,7 @@
   "repo_owner": "lstwo",
   "repo_name": "WL-Voice-Chat",
   "file_filter": [],
-  "process_file": "MoveToPlugins",
+  "process_file": "WLVoiceChatInstall",
   "dependencies": [
     "lstwo.shadowlib"
   ]
