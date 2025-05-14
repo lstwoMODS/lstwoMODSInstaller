@@ -1,0 +1,10 @@
+{
+  "mod_name": "WL Voice Chat",
+  "repo_owner": "lstwo",
+  "repo_name": "WL-Voice-Chat",
+  "file_filter": [],
+  "process_file": "MoveToPlugins",
+  "dependencies": [
+    "lstwo.shadowlib"
+  ]
+}
