@@ -56,6 +56,16 @@ WINDOWS X64 ONLY
 
 # Troubleshooting
 
+## Installing a mod makes the game not open anymore
+
+### Cause
+
+This might be because of an incompatibility or issue in the mod.
+
+### Fix
+
+Find the mod on github and check the readme or issues page for any notes.
+
 ## Installer doesn't open
 
 ### Cause
