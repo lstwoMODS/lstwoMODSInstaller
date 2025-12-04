@@ -1,5 +1,5 @@
 > [!WARNING]
-> This installer is obsolete and will no longer be maintained.
+> This installer is obsolete and will no longer be maintained. Use the [website](https://lstwomods.github.io) instead.
 
 # lstwoMODSInstaller
 Program to install and update [lstwoMODS](https://github.com/lstwo/lstwomods) and its dependencies and install and manage Custom Items.
