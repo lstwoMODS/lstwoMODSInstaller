@@ -1,3 +1,6 @@
+> [!WARNING]
+> This installer is obsolete and will no longer be maintained.
+
 # lstwoMODSInstaller
 Program to install and update [lstwoMODS](https://github.com/lstwo/lstwomods) and its dependencies and install and manage Custom Items.
 
